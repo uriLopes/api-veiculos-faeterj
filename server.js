@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const routes = require('./src/routes');
@@ -9,8 +10,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Rota raiz de boas-vindas / healthcheck
-app.get('/', (req, res) => {
+// Arquivos estáticos do Frontend (Dashboard Web)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Rotas da aplicacao (API REST)
+app.use(routes);
+
+// Rota de status em JSON
+app.get('/status', (req, res) => {
   return res.json({
     projeto: 'API REST de Gerenciamento de Veículos',
     instituicao: 'FAETERJ',
@@ -18,9 +25,6 @@ app.get('/', (req, res) => {
     status: 'online'
   });
 });
-
-// Rotas da aplicacao
-app.use(routes);
 
 const PORT = process.env.PORT || 3000;
 

@@ -261,3 +261,4 @@ api-veiculos-faeterj/
 - As credenciais de acesso ao banco estão protegidas por variáveis de ambiente via `.env`, mantidas fora do controle de versão pelo `.gitignore`.
 - Todas as operações com banco de dados utilizam o Query Builder **Knex.js**, prevenindo vulnerabilidades de **SQL Injection**.
 - Códigos de status HTTP semânticos (200, 201, 400, 404, 500) implementados em todas as rotas.
+

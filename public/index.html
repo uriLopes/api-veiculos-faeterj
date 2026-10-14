@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Montadora • Gerenciamento de Veículos (FAETERJ)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <i data-lucide="car" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Montadora <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">API Veículos</span>
+          </h1>
+          <p class="text-xs text-slate-400">FAETERJ • Prog. Cliente/Servidor • Iury Lopes</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          API Online (:3000)
+        </span>
+        <a href="https://github.com/uriLopes/api-veiculos-faeterj" target="_blank" class="text-slate-400 hover:text-white transition text-xs flex items-center gap-1 border border-slate-800 px-3 py-1.5 rounded-lg hover:border-slate-700">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+          <span>TOTAL DE VEÍCULOS</span>
+          <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
+        </div>
+        <p id="kpiTotal" class="text-2xl font-bold text-white mt-2">0</p>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+          <span>100% ELÉTRICOS</span>
+          <i data-lucide="zap" class="w-4 h-4 text-blue-400"></i>
+        </div>
+        <p id="kpiEletricos" class="text-2xl font-bold text-blue-400 mt-2">0</p>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+          <span>HÍBRIDOS</span>
+          <i data-lucide="battery-charging" class="w-4 h-4 text-purple-400"></i>
+        </div>
+        <p id="kpiHibridos" class="text-2xl font-bold text-purple-400 mt-2">0</p>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+          <span>EM PRODUÇÃO ATIVA</span>
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+        </div>
+        <p id="kpiEmProducao" class="text-2xl font-bold text-emerald-400 mt-2">0</p>
+      </div>
+    </div>
+
+    <!-- Ações e Formulário -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Card Formulário (Cadastro / Edição) -->
+      <div class="lg:col-span-1 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+        <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+          <h2 id="formTitle" class="text-base font-semibold text-white flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i>
+            Cadastrar Veículo
+          </h2>
+          <button id="btnCancelarEdicao" onclick="resetForm()" class="hidden text-xs text-slate-400 hover:text-rose-400">
+            Cancelar Edição
+          </button>
+        </div>
+
+        <form id="veiculoForm" onsubmit="salvarVeiculo(event)" class="space-y-4 text-sm">
+          <input type="hidden" id="veiculoId">
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Modelo *</label>
+            <input type="text" id="modelo" required placeholder="Ex: Fiat Pulse Hybrid" 
+                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Propulsão *</label>
+              <select id="tipo_propulsao" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+                <option value="eletrico">Elétrico</option>
+                <option value="hibrido">Híbrido</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Ano Modelo *</label>
+              <input type="number" id="ano_modelo" required min="1990" max="2035" value="2026"
+                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Autonomia (km)</label>
+              <input type="number" id="autonomia_km" placeholder="Ex: 500"
+                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Bateria (kWh)</label>
+              <input type="number" id="capacidade_bateria_kwh" step="0.01" placeholder="Ex: 65.50"
+                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Preço Base (R$) *</label>
+            <input type="number" id="preco_base" step="0.01" required placeholder="Ex: 149900.00"
+                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Status de Produção</label>
+            <select id="status_producao" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+              <option value="em_producao">Em Produção</option>
+              <option value="descontinuado">Descontinuado</option>
+            </select>
+          </div>
+
+          <button type="submit" id="btnSalvar" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span id="btnSalvarText">Salvar no Banco</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Tabela / Lista de Veículos -->
+      <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+        <div>
+          <div class="border-b border-slate-800 pb-4 mb-4 flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                <i data-lucide="list" class="w-5 h-5 text-cyan-400"></i>
+                Catálogo de Veículos (PostgreSQL Neon)
+              </h2>
+              <p class="text-xs text-slate-400">Dados sincronizados em tempo real com a API Knex</p>
+            </div>
+            <button onclick="carregarVeiculos()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-xl text-slate-300 flex items-center gap-1.5 transition">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              Atualizar
+            </button>
+          </div>
+
+          <!-- Container da Tabela -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3">ID</th>
+                  <th class="py-3 px-3">Modelo</th>
+                  <th class="py-3 px-3">Propulsão</th>
+                  <th class="py-3 px-3">Ano</th>
+                  <th class="py-3 px-3">Preço Base</th>
+                  <th class="py-3 px-3">Status</th>
+                  <th class="py-3 px-3 text-right">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaVeiculos" class="divide-y divide-slate-800/60 font-medium">
+                <tr>
+                  <td colspan="7" class="py-8 text-center text-slate-500">Carregando veículos...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Footer da tabela -->
+        <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+          <span>Rota da API: <code class="text-cyan-400 font-mono">GET /veiculos</code></span>
+          <span id="labelContador">0 cadastrados</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
+    <i id="toastIcon" data-lucide="check" class="w-4 h-4"></i>
+    <span id="toastMsg">Mensagem</span>
+  </div>
+
+  <script>
+    let veiculosCache = [];
+
+    // Formatar moeda brasileira
+    function formatarPreco(valor) {
+      return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Exibir Toast
+    function showToast(msg, tipo = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.innerText = msg;
+      toast.className = `fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold ${
+        tipo === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
+      }`;
+      toastIcon.setAttribute('data-lucide', tipo === 'success' ? 'check-circle' : 'alert-circle');
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.className = 'fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold';
+      }, 3500);
+    }
+
+    // Carregar veículos da API
+    async function carregarVeiculos() {
+      try {
+        const res = await fetch('/veiculos');
+        const data = await res.json();
+        veiculosCache = data;
+        renderizarTabela(data);
+        atualizarKPIs(data);
+      } catch (err) {
+        showToast('Erro ao consultar API: ' + err.message, 'error');
+      }
+    }
+
+    // Atualizar KPIs
+    function atualizarKPIs(lista) {
+      document.getElementById('kpiTotal').innerText = lista.length;
+      document.getElementById('kpiEletricos').innerText = lista.filter(v => v.tipo_propulsao === 'eletrico').length;
+      document.getElementById('kpiHibridos').innerText = lista.filter(v => v.tipo_propulsao === 'hibrido').length;
+      document.getElementById('kpiEmProducao').innerText = lista.filter(v => v.status_producao === 'em_producao').length;
+      document.getElementById('labelContador').innerText = `${lista.length} veículo(s) cadastrado(s)`;
+    }
+
+    // Renderizar tabela HTML
+    function renderizarTabela(lista) {
+      const tbody = document.getElementById('tabelaVeiculos');
+      if (lista.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-500">Nenhum veículo cadastrado no banco.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = lista.map(v => {
+        const propBadge = v.tipo_propulsao === 'eletrico'
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20">Elétrico</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/20">Híbrido</span>`;
+
+        const statusBadge = v.status_producao === 'em_producao'
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Em produção</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-500/10 text-slate-400 border border-slate-500/20">Descontinuado</span>`;
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-3 px-3 text-slate-400 font-mono font-normal">#${v.id}</td>
+            <td class="py-3 px-3 font-semibold text-white">
+              ${v.modelo}
+              ${v.autonomia_km ? `<div class="text-[10px] font-normal text-slate-400">${v.autonomia_km} km de autonomia</div>` : ''}
+            </td>
+            <td class="py-3 px-3">${propBadge}</td>
+            <td class="py-3 px-3 text-slate-300">${v.ano_modelo}</td>
+            <td class="py-3 px-3 text-cyan-400 font-mono font-medium">${formatarPreco(v.preco_base)}</td>
+            <td class="py-3 px-3">${statusBadge}</td>
+            <td class="py-3 px-3 text-right space-x-1">
+              <button onclick="editarVeiculo(${v.id})" class="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 rounded-lg transition" title="Editar">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+              <button onclick="deletarVeiculo(${v.id})" class="p-1.5 hover:bg-rose-500/10 text-slate-400 hover:text-rose-400 rounded-lg transition" title="Excluir">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // Salvar (POST ou PUT)
+    async function salvarVeiculo(e) {
+      e.preventDefault();
+      const id = document.getElementById('veiculoId').value;
+      const modelo = document.getElementById('modelo').value;
+      const tipo_propulsao = document.getElementById('tipo_propulsao').value;
+      const ano_modelo = Number(document.getElementById('ano_modelo').value);
+      const autonomia_km = document.getElementById('autonomia_km').value ? Number(document.getElementById('autonomia_km').value) : null;
+      const capacidade_bateria_kwh = document.getElementById('capacidade_bateria_kwh').value ? Number(document.getElementById('capacidade_bateria_kwh').value) : null;
+      const preco_base = Number(document.getElementById('preco_base').value);
+      const status_producao = document.getElementById('status_producao').value;
+
+      const payload = {
+        modelo,
+        tipo_propulsao,
+        ano_modelo,
+        autonomia_km,
+        capacidade_bateria_kwh,
+        preco_base,
+        status_producao
+      };
+
+      try {
+        const url = id ? `/veiculos/${id}` : '/veiculos';
+        const method = id ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.mensagem || 'Falha ao processar requisição.');
+        }
+
+        showToast(id ? 'Veículo atualizado com sucesso!' : 'Veículo cadastrado com sucesso!');
+        resetForm();
+        carregarVeiculos();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Preencher formulário para edição
+    function editarVeiculo(id) {
+      const v = veiculosCache.find(item => item.id === id);
+      if (!v) return;
+
+      document.getElementById('veiculoId').value = v.id;
+      document.getElementById('modelo').value = v.modelo;
+      document.getElementById('tipo_propulsao').value = v.tipo_propulsao;
+      document.getElementById('ano_modelo').value = v.ano_modelo;
+      document.getElementById('autonomia_km').value = v.autonomia_km || '';
+      document.getElementById('capacidade_bateria_kwh').value = v.capacidade_bateria_kwh || '';
+      document.getElementById('preco_base').value = v.preco_base;
+      document.getElementById('status_producao').value = v.status_producao;
+
+      document.getElementById('formTitle').innerHTML = '<i data-lucide="edit-2" class="w-5 h-5 text-amber-400"></i> Editar Veículo #' + v.id;
+      document.getElementById('btnSalvarText').innerText = 'Atualizar Veículo';
+      document.getElementById('btnCancelarEdicao').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    // Resetar formulário
+    function resetForm() {
+      document.getElementById('veiculoForm').reset();
+      document.getElementById('veiculoId').value = '';
+      document.getElementById('ano_modelo').value = 2026;
+      document.getElementById('formTitle').innerHTML = '<i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i> Cadastrar Veículo';
+      document.getElementById('btnSalvarText').innerText = 'Salvar no Banco';
+      document.getElementById('btnCancelarEdicao').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    // Deletar veículo
+    async function deletarVeiculo(id) {
+      if (!confirm(`Tem certeza que deseja excluir o veículo #${id}?`)) return;
+
+      try {
+        const res = await fetch(`/veiculos/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.mensagem || 'Erro ao excluir.');
+        }
+
+        showToast('Veículo excluído com sucesso!');
+        carregarVeiculos();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // Inicializar na abertura
+    carregarVeiculos();
+  </script>
+</body>
+</html>
+

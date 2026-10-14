@@ -1,316 +1,854 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Montadora • Gerenciamento de Veículos (FAETERJ)</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Montadora • Sistema de Gestão de Veículos</title>
+  
+  <!-- Tailwind CSS with Typography Plugin (Design System) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            border: 'rgba(255, 255, 255, 0.08)',
+            input: 'rgba(255, 255, 255, 0.12)',
+            ring: '#6366f1',
+            background: '#09090b',
+            foreground: '#f4f4f5',
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
+    /* Radial mesh background inspired by Stripe & Linear */
+    body {
+      background-color: #09090b;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.09) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.07) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* Subtle dot grid pattern (Aceternity style) */
+    .bg-grid-dots {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Shadcn Glassmorphism card */
+    .glass-card {
+      background: rgba(24, 24, 27, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.35);
+    }
+    
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+    }
+
+    .glass-header {
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Custom scrollbar (Zinc tokens) */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+    /* Fade-in-up animation for cards */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Subtle pulse glow */
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    .animate-glow {
+      animation: glowPulse 3s ease-in-out infinite;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col">
+<body class="text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-white relative">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-          <i data-lucide="car" class="w-6 h-6 text-white"></i>
+  <!-- Top Announcement Bar -->
+  <div class="bg-indigo-950/40 border-b border-indigo-800/30 text-indigo-300 px-4 py-1.5 text-xs text-center flex items-center justify-center gap-2">
+    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    <span class="font-medium text-zinc-300">Backend Conectado:</span> Neon PostgreSQL • API REST v1.0 • FAETERJ Barra Mansa (Aluno: Iury Lopes)
+  </div>
+
+  <!-- Navbar Superior (Shadcn style) -->
+  <header class="glass-header sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-4">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-violet-500 to-purple-600 p-[1px] shadow-lg shadow-indigo-500/20">
+          <div class="w-full h-full bg-zinc-950 rounded-2xl flex items-center justify-center">
+            <i data-lucide="cpu" class="w-6 h-6 text-indigo-400"></i>
+          </div>
         </div>
         <div>
-          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            Montadora <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">API Veículos</span>
-          </h1>
-          <p class="text-xs text-slate-400">FAETERJ • Prog. Cliente/Servidor • Iury Lopes</p>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold text-white tracking-tight">STELLANTIS <span class="font-light text-zinc-400">VEÍCULOS</span></h1>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 uppercase tracking-wider">REST API</span>
+          </div>
+          <p class="text-xs text-zinc-400">Painel de Engenharia e Produção da Montadora</p>
         </div>
       </div>
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          API Online (:3000)
-        </span>
-        <a href="https://github.com/uriLopes/api-veiculos-faeterj" target="_blank" class="text-slate-400 hover:text-white transition text-xs flex items-center gap-1 border border-slate-800 px-3 py-1.5 rounded-lg hover:border-slate-700">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          GitHub
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-2.5">
+        <!-- Botão Arquitetura / Docs com Typography -->
+        <button onclick="abrirModalDocs()" class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-300 hover:text-indigo-300 transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl" title="Documentação Técnica (Renderizada via @tailwindcss/typography)">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Documentação</span>
+        </button>
+
+        <a href="/veiculos" target="_blank" class="hidden md:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-indigo-400 transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl">
+          <i data-lucide="code" class="w-3.5 h-3.5"></i>
+          JSON /veiculos
         </a>
+
+        <a href="https://github.com/uriLopes/api-veiculos-faeterj" target="_blank" class="hidden md:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+          Repositório
+        </a>
+
+        <!-- Botão Primário com Atalho de Teclado -->
+        <button onclick="abrirModalCadastro()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white text-xs font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/35 transition flex items-center gap-2 group">
+          <i data-lucide="plus" class="w-4 h-4 group-hover:rotate-90 transition duration-200"></i>
+          <span>Novo Veículo</span>
+          <kbd class="hidden sm:inline-flex items-center px-1.5 py-0.2 text-[9px] font-mono text-indigo-200 bg-indigo-900/50 rounded border border-indigo-400/30">N</kbd>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- Container Principal -->
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
 
-    <!-- KPI Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
-          <span>TOTAL DE VEÍCULOS</span>
-          <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
+    <!-- KPI Cockpit (Cards estilo Shadcn + Stripe) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl group-hover:bg-indigo-500/20 transition"></div>
+        <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
+          <span>Frota Cadastrada</span>
+          <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i>
         </div>
-        <p id="kpiTotal" class="text-2xl font-bold text-white mt-2">0</p>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="kpiTotal" class="text-3xl font-extrabold text-white tracking-tight font-mono">0</span>
+          <span class="text-xs text-zinc-500">modelos</span>
+        </div>
+        <div class="mt-2 text-[11px] text-zinc-400 flex items-center gap-1.5">
+          <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> Sincronizado com Neon
+        </div>
       </div>
 
-      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
-          <span>100% ELÉTRICOS</span>
+      <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition"></div>
+        <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
+          <span>100% Elétricos (BEV)</span>
           <i data-lucide="zap" class="w-4 h-4 text-blue-400"></i>
         </div>
-        <p id="kpiEletricos" class="text-2xl font-bold text-blue-400 mt-2">0</p>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="kpiEletricos" class="text-3xl font-extrabold text-blue-400 tracking-tight font-mono">0</span>
+          <span class="text-xs text-zinc-500">veículos</span>
+        </div>
+        <div class="mt-2 text-[11px] text-zinc-400">Zero emissão de carbono</div>
       </div>
 
-      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
-          <span>HÍBRIDOS</span>
+      <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition"></div>
+        <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
+          <span>Híbridos (HEV/PHEV)</span>
           <i data-lucide="battery-charging" class="w-4 h-4 text-purple-400"></i>
         </div>
-        <p id="kpiHibridos" class="text-2xl font-bold text-purple-400 mt-2">0</p>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="kpiHibridos" class="text-3xl font-extrabold text-purple-400 tracking-tight font-mono">0</span>
+          <span class="text-xs text-zinc-500">veículos</span>
+        </div>
+        <div class="mt-2 text-[11px] text-zinc-400">Combustão + Bateria</div>
       </div>
 
-      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
-          <span>EM PRODUÇÃO ATIVA</span>
-          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+      <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition"></div>
+        <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
+          <span>Preço Médio da Linha</span>
+          <i data-lucide="badge-dollar-sign" class="w-4 h-4 text-emerald-400"></i>
         </div>
-        <p id="kpiEmProducao" class="text-2xl font-bold text-emerald-400 mt-2">0</p>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="kpiPrecoMedio" class="text-xl sm:text-2xl font-bold font-mono text-emerald-400 tracking-tight">R$ 0,00</span>
+        </div>
+        <div class="mt-2 text-[11px] text-zinc-400">Base ponderada do catálogo</div>
+      </div>
+
+    </div>
+
+    <!-- Barra de Controle, Filtros e Busca (Shadcn patterns) -->
+    <div class="glass-card p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Campo de Busca com Atalho ⌘K -->
+      <div class="relative w-full md:w-80">
+        <i data-lucide="search" class="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+        <input type="text" id="campoBusca" oninput="aplicarFiltros()" placeholder="Buscar por modelo ou ID..."
+               class="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-10 pr-12 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 transition">
+        <kbd class="hidden sm:inline-flex items-center absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 bg-zinc-800/80 border border-zinc-700/60 rounded cursor-pointer" onclick="document.getElementById('campoBusca').focus()">/</kbd>
+      </div>
+
+      <!-- Filtros em Pills -->
+      <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 text-xs font-medium">
+        <button onclick="setFiltro('todos')" id="pill-todos" class="px-3.5 py-1.5 rounded-xl bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 transition">
+          Todos
+        </button>
+        <button onclick="setFiltro('eletrico')" id="pill-eletrico" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition">
+          ⚡ Elétricos
+        </button>
+        <button onclick="setFiltro('hibrido')" id="pill-hibrido" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition">
+          🔋 Híbridos
+        </button>
+        <button onclick="setFiltro('em_producao')" id="pill-em_producao" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition">
+          🏭 Em Produção
+        </button>
+      </div>
+
+      <!-- Toggle de Visualização (Cards vs Tabela) -->
+      <div class="flex items-center gap-1 bg-zinc-900/80 border border-zinc-800 p-1 rounded-xl self-end md:self-auto">
+        <button onclick="alternarModoVisualizacao('grid')" id="btnViewGrid" class="p-1.5 rounded-lg bg-zinc-800 text-indigo-400 shadow-sm transition" title="Ver em Cards">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i>
+        </button>
+        <button onclick="alternarModoVisualizacao('table')" id="btnViewTable" class="p-1.5 rounded-lg text-zinc-400 hover:text-white transition" title="Ver em Tabela">
+          <i data-lucide="table" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Catálogo de Veículos (Visualização em Grid) -->
+    <div id="containerGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Inserido dinamicamente via JS -->
+    </div>
+
+    <!-- Catálogo de Veículos (Visualização em Tabela) -->
+    <div id="containerTabela" class="hidden glass-card rounded-2xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-zinc-900/90 text-zinc-400 font-mono text-[11px] uppercase tracking-wider border-b border-zinc-800">
+            <tr>
+              <th class="py-3.5 px-4">ID</th>
+              <th class="py-3.5 px-4">Modelo</th>
+              <th class="py-3.5 px-4">Propulsão</th>
+              <th class="py-3.5 px-4">Ano</th>
+              <th class="py-3.5 px-4">Autonomia</th>
+              <th class="py-3.5 px-4">Bateria</th>
+              <th class="py-3.5 px-4">Preço Base</th>
+              <th class="py-3.5 px-4">Status</th>
+              <th class="py-3.5 px-4 text-right">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyVeiculos" class="divide-y divide-zinc-800/60 font-medium">
+            <!-- Linhas inseridas via JS -->
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- Ações e Formulário -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  </main>
+
+  <!-- Modal de Cadastro / Edição -->
+  <div id="modalForm" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 transition duration-200">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative space-y-6">
       
-      <!-- Card Formulário (Cadastro / Edição) -->
-      <div class="lg:col-span-1 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
-          <h2 id="formTitle" class="text-base font-semibold text-white flex items-center gap-2">
-            <i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i>
-            Cadastrar Veículo
-          </h2>
-          <button id="btnCancelarEdicao" onclick="resetForm()" class="hidden text-xs text-slate-400 hover:text-rose-400">
-            Cancelar Edição
-          </button>
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+        <div>
+          <h3 id="modalTitulo" class="text-base font-bold text-white flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i>
+            Cadastrar Novo Veículo
+          </h3>
+          <p class="text-xs text-zinc-400 mt-0.5">Persistência direta no PostgreSQL via Knex</p>
+        </div>
+        <button onclick="fecharModal()" class="w-8 h-8 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition" title="Fechar (ESC)">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="formVeiculo" onsubmit="salvarVeiculo(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="formId">
+
+        <div>
+          <label class="block font-medium text-zinc-300 mb-1.5">Modelo do Veículo *</label>
+          <input type="text" id="campoModelo" required placeholder="Ex: Peugeot e-2008 GT"
+                 class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
         </div>
 
-        <form id="veiculoForm" onsubmit="salvarVeiculo(event)" class="space-y-4 text-sm">
-          <input type="hidden" id="veiculoId">
-
+        <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1">Modelo *</label>
-            <input type="text" id="modelo" required placeholder="Ex: Fiat Pulse Hybrid" 
-                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
+            <label class="block font-medium text-zinc-300 mb-1.5">Tipo de Propulsão *</label>
+            <select id="campoPropulsao" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
+              <option value="eletrico">Elétrico (BEV)</option>
+              <option value="hibrido">Híbrido (HEV)</option>
+            </select>
           </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Propulsão *</label>
-              <select id="tipo_propulsao" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
-                <option value="eletrico">Elétrico</option>
-                <option value="hibrido">Híbrido</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Ano Modelo *</label>
-              <input type="number" id="ano_modelo" required min="1990" max="2035" value="2026"
-                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Autonomia (km)</label>
-              <input type="number" id="autonomia_km" placeholder="Ex: 500"
-                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Bateria (kWh)</label>
-              <input type="number" id="capacidade_bateria_kwh" step="0.01" placeholder="Ex: 65.50"
-                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
-            </div>
-          </div>
-
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1">Preço Base (R$) *</label>
-            <input type="number" id="preco_base" step="0.01" required placeholder="Ex: 149900.00"
-                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500">
+            <label class="block font-medium text-zinc-300 mb-1.5">Ano Modelo *</label>
+            <input type="number" id="campoAno" required min="1990" max="2035" value="2026"
+                   class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
           </div>
+        </div>
 
+        <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1">Status de Produção</label>
-            <select id="status_producao" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+            <label class="block font-medium text-zinc-300 mb-1.5">Autonomia (km)</label>
+            <input type="number" id="campoAutonomia" placeholder="Ex: 406"
+                   class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
+          </div>
+          <div>
+            <label class="block font-medium text-zinc-300 mb-1.5">Bateria (kWh)</label>
+            <input type="number" id="campoBateria" step="0.01" placeholder="Ex: 54.00"
+                   class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium text-zinc-300 mb-1.5">Preço Base (R$) *</label>
+            <input type="number" id="campoPreco" step="0.01" required placeholder="Ex: 199990.00"
+                   class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
+          </div>
+          <div>
+            <label class="block font-medium text-zinc-300 mb-1.5">Status de Produção</label>
+            <select id="campoStatus" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
               <option value="em_producao">Em Produção</option>
               <option value="descontinuado">Descontinuado</option>
             </select>
           </div>
+        </div>
 
-          <button type="submit" id="btnSalvar" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2">
-            <i data-lucide="save" class="w-4 h-4"></i>
-            <span id="btnSalvarText">Salvar no Banco</span>
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-zinc-800">
+          <button type="button" onclick="fecharModal()" class="px-4 py-2.5 rounded-xl border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 transition font-medium">
+            Cancelar
           </button>
-        </form>
-      </div>
-
-      <!-- Tabela / Lista de Veículos -->
-      <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
-        <div>
-          <div class="border-b border-slate-800 pb-4 mb-4 flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <h2 class="text-base font-semibold text-white flex items-center gap-2">
-                <i data-lucide="list" class="w-5 h-5 text-cyan-400"></i>
-                Catálogo de Veículos (PostgreSQL Neon)
-              </h2>
-              <p class="text-xs text-slate-400">Dados sincronizados em tempo real com a API Knex</p>
-            </div>
-            <button onclick="carregarVeiculos()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-xl text-slate-300 flex items-center gap-1.5 transition">
-              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-              Atualizar
-            </button>
-          </div>
-
-          <!-- Container da Tabela -->
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="text-slate-400 uppercase tracking-wider border-b border-slate-800">
-                <tr>
-                  <th class="py-3 px-3">ID</th>
-                  <th class="py-3 px-3">Modelo</th>
-                  <th class="py-3 px-3">Propulsão</th>
-                  <th class="py-3 px-3">Ano</th>
-                  <th class="py-3 px-3">Preço Base</th>
-                  <th class="py-3 px-3">Status</th>
-                  <th class="py-3 px-3 text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tabelaVeiculos" class="divide-y divide-slate-800/60 font-medium">
-                <tr>
-                  <td colspan="7" class="py-8 text-center text-slate-500">Carregando veículos...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <button type="submit" id="btnSubmitModal" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white font-semibold shadow-lg shadow-indigo-500/25 transition flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Confirmar e Salvar</span>
+          </button>
         </div>
-
-        <!-- Footer da tabela -->
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
-          <span>Rota da API: <code class="text-cyan-400 font-mono">GET /veiculos</code></span>
-          <span id="labelContador">0 cadastrados</span>
-        </div>
-      </div>
-
+      </form>
     </div>
-  </main>
-
-  <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
-    <i id="toastIcon" data-lucide="check" class="w-4 h-4"></i>
-    <span id="toastMsg">Mensagem</span>
   </div>
 
+  <!-- Modal de Documentação & Ficha Técnica (Demonstração do @tailwindcss/typography) -->
+  <div id="modalDocs" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 transition duration-200">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
+      
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="modalDocsTitulo" class="text-base font-bold text-white">Especificações & Arquitetura Técnica</h3>
+            <p class="text-xs text-zinc-400">Renderizado com o plugin <span class="font-mono text-indigo-400">@tailwindcss/typography</span></p>
+          </div>
+        </div>
+        <button onclick="fecharModalDocs()" class="w-8 h-8 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Conteúdo Prose via @tailwindcss/typography -->
+      <div id="modalDocsConteudo" class="overflow-y-auto pr-2 prose prose-invert prose-zinc max-w-none text-xs sm:text-sm">
+        <!-- Inserido dinamicamente -->
+      </div>
+
+      <div class="pt-4 border-t border-zinc-800 mt-4 flex justify-end">
+        <button onclick="fecharModalDocs()" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-medium transition">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast (Shadcn style) -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border">
+    <i id="toastIcon" data-lucide="check" class="w-4 h-4"></i>
+    <span id="toastMsg">Notificação</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-zinc-900 bg-zinc-950/80 py-6 text-center text-xs text-zinc-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span>Projeto desenvolvido por <strong>Iury Lopes</strong> para a disciplina de Programação Cliente/Servidor (FAETERJ).</span>
+      <span class="font-mono text-[11px] text-zinc-600">PostgreSQL • Express • Knex • Tailwind v4 • Shadcn Tokens</span>
+    </div>
+  </footer>
+
   <script>
-    let veiculosCache = [];
+    let veiculos = [];
+    let filtroAtual = 'todos';
+    let modoVisualizacao = 'grid';
 
-    // Formatar moeda brasileira
-    function formatarPreco(valor) {
-      return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
+    // Formatador Monetário BRL
+    const formatadorBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    // Exibir Toast
+    // Atalhos de teclado (Linear / Shadcn style)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        fecharModal();
+        fecharModalDocs();
+      }
+      if ((e.key === '/' || (e.ctrlKey && e.key === 'k') || (e.metaKey && e.key === 'k')) && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        document.getElementById('campoBusca').focus();
+      }
+      if (e.key.toLowerCase() === 'n' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        abrirModalCadastro();
+      }
+    });
+
+    // Toast de Notificações
     function showToast(msg, tipo = 'success') {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toastMsg');
       const toastIcon = document.getElementById('toastIcon');
 
       toastMsg.innerText = msg;
-      toast.className = `fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-0 opacity-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold ${
-        tipo === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
+      toast.className = `fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-0 opacity-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold ${
+        tipo === 'success' 
+          ? 'bg-zinc-900 text-emerald-300 border-emerald-500/40 shadow-emerald-500/10' 
+          : 'bg-zinc-900 text-rose-300 border-rose-500/40 shadow-rose-500/10'
       }`;
       toastIcon.setAttribute('data-lucide', tipo === 'success' ? 'check-circle' : 'alert-circle');
       lucide.createIcons();
 
       setTimeout(() => {
-        toast.className = 'fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold';
+        toast.className = 'fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border';
       }, 3500);
     }
 
-    // Carregar veículos da API
+    // Carregar lista de veículos da API
     async function carregarVeiculos() {
       try {
         const res = await fetch('/veiculos');
-        const data = await res.json();
-        veiculosCache = data;
-        renderizarTabela(data);
-        atualizarKPIs(data);
+        if (!res.ok) throw new Error('Falha na resposta da API');
+        veiculos = await res.json();
+        atualizarKPIs();
+        aplicarFiltros();
       } catch (err) {
-        showToast('Erro ao consultar API: ' + err.message, 'error');
+        showToast('Erro ao carregar veículos: ' + err.message, 'error');
       }
     }
 
-    // Atualizar KPIs
-    function atualizarKPIs(lista) {
-      document.getElementById('kpiTotal').innerText = lista.length;
-      document.getElementById('kpiEletricos').innerText = lista.filter(v => v.tipo_propulsao === 'eletrico').length;
-      document.getElementById('kpiHibridos').innerText = lista.filter(v => v.tipo_propulsao === 'hibrido').length;
-      document.getElementById('kpiEmProducao').innerText = lista.filter(v => v.status_producao === 'em_producao').length;
-      document.getElementById('labelContador').innerText = `${lista.length} veículo(s) cadastrado(s)`;
+    // Atualizar indicadores numéricos
+    function atualizarKPIs() {
+      const total = veiculos.length;
+      const eletricos = veiculos.filter(v => v.tipo_propulsao === 'eletrico').length;
+      const hibridos = veiculos.filter(v => v.tipo_propulsao === 'hibrido').length;
+      
+      const somaPrecos = veiculos.reduce((acc, v) => acc + Number(v.preco_base || 0), 0);
+      const media = total > 0 ? somaPrecos / total : 0;
+
+      document.getElementById('kpiTotal').innerText = total;
+      document.getElementById('kpiEletricos').innerText = eletricos;
+      document.getElementById('kpiHibridos').innerText = hibridos;
+      document.getElementById('kpiPrecoMedio').innerText = formatadorBRL.format(media);
     }
 
-    // Renderizar tabela HTML
-    function renderizarTabela(lista) {
-      const tbody = document.getElementById('tabelaVeiculos');
+    // Filtros por Categoria
+    function setFiltro(tipo) {
+      filtroAtual = tipo;
+      ['todos', 'eletrico', 'hibrido', 'em_producao'].forEach(t => {
+        const el = document.getElementById(`pill-${t}`);
+        if (t === tipo) {
+          el.className = 'px-3.5 py-1.5 rounded-xl bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 transition shadow-sm shadow-indigo-500/10';
+        } else {
+          el.className = 'px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition';
+        }
+      });
+      aplicarFiltros();
+    }
+
+    // Alternar entre Cards e Tabela
+    function alternarModoVisualizacao(modo) {
+      modoVisualizacao = modo;
+      const btnGrid = document.getElementById('btnViewGrid');
+      const btnTable = document.getElementById('btnViewTable');
+      const cGrid = document.getElementById('containerGrid');
+      const cTable = document.getElementById('containerTabela');
+
+      if (modo === 'grid') {
+        btnGrid.className = 'p-1.5 rounded-lg bg-zinc-800 text-indigo-400 shadow-sm transition';
+        btnTable.className = 'p-1.5 rounded-lg text-zinc-400 hover:text-white transition';
+        cGrid.classList.remove('hidden');
+        cTable.classList.add('hidden');
+      } else {
+        btnTable.className = 'p-1.5 rounded-lg bg-zinc-800 text-indigo-400 shadow-sm transition';
+        btnGrid.className = 'p-1.5 rounded-lg text-zinc-400 hover:text-white transition';
+        cTable.classList.remove('hidden');
+        cGrid.classList.add('hidden');
+      }
+      aplicarFiltros();
+    }
+
+    // Aplicar busca e filtros combinados
+    function aplicarFiltros() {
+      const termo = document.getElementById('campoBusca').value.toLowerCase().trim();
+      
+      let lista = veiculos.filter(v => {
+        const bateTexto = v.modelo.toLowerCase().includes(termo) || String(v.id).includes(termo);
+        if (!bateTexto) return false;
+
+        if (filtroAtual === 'eletrico') return v.tipo_propulsao === 'eletrico';
+        if (filtroAtual === 'hibrido') return v.tipo_propulsao === 'hibrido';
+        if (filtroAtual === 'em_producao') return v.status_producao === 'em_producao';
+        return true;
+      });
+
+      renderizar(lista);
+    }
+
+    // Renderizar Interface (Grid e Tabela)
+    function renderizar(lista) {
+      const cGrid = document.getElementById('containerGrid');
+      const tbody = document.getElementById('tbodyVeiculos');
+
       if (lista.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-500">Nenhum veículo cadastrado no banco.</td></tr>`;
+        cGrid.innerHTML = `
+          <div class="col-span-full py-16 text-center glass-card rounded-2xl">
+            <i data-lucide="inbox" class="w-10 h-10 text-zinc-600 mx-auto mb-3"></i>
+            <p class="text-sm font-semibold text-zinc-400">Nenhum veículo encontrado</p>
+            <p class="text-xs text-zinc-600 mt-1">Cadastre um novo modelo ou altere os termos da busca.</p>
+          </div>
+        `;
+        tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-zinc-500 font-mono text-xs">Nenhum veículo encontrado para os filtros selecionados.</td></tr>`;
+        lucide.createIcons();
         return;
       }
 
-      tbody.innerHTML = lista.map(v => {
-        const propBadge = v.tipo_propulsao === 'eletrico'
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20">Elétrico</span>`
-          : `<span class="px-2 py-0.5 rounded-full text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/20">Híbrido</span>`;
-
-        const statusBadge = v.status_producao === 'em_producao'
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Em produção</span>`
-          : `<span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-500/10 text-slate-400 border border-slate-500/20">Descontinuado</span>`;
+      // Renderizar Cards com @tailwindcss/typography integrado para detalhes
+      cGrid.innerHTML = lista.map((v, index) => {
+        const isEletrico = v.tipo_propulsao === 'eletrico';
+        const isProducao = v.status_producao === 'em_producao';
 
         return `
-          <tr class="hover:bg-slate-800/40 transition">
-            <td class="py-3 px-3 text-slate-400 font-mono font-normal">#${v.id}</td>
-            <td class="py-3 px-3 font-semibold text-white">
-              ${v.modelo}
-              ${v.autonomia_km ? `<div class="text-[10px] font-normal text-slate-400">${v.autonomia_km} km de autonomia</div>` : ''}
-            </td>
-            <td class="py-3 px-3">${propBadge}</td>
-            <td class="py-3 px-3 text-slate-300">${v.ano_modelo}</td>
-            <td class="py-3 px-3 text-cyan-400 font-mono font-medium">${formatarPreco(v.preco_base)}</td>
-            <td class="py-3 px-3">${statusBadge}</td>
-            <td class="py-3 px-3 text-right space-x-1">
-              <button onclick="editarVeiculo(${v.id})" class="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 rounded-lg transition" title="Editar">
-                <i data-lucide="edit-3" class="w-4 h-4"></i>
-              </button>
-              <button onclick="deletarVeiculo(${v.id})" class="p-1.5 hover:bg-rose-500/10 text-slate-400 hover:text-rose-400 rounded-lg transition" title="Excluir">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
-            </td>
-          </tr>
+          <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between group hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 animate-fade-in-up" style="animation-delay: ${index * 60}ms">
+            <div>
+              <!-- Header Card -->
+              <div class="flex items-start justify-between gap-3 mb-4">
+                <span class="font-mono text-[11px] text-zinc-500 px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800">
+                  #${v.id}
+                </span>
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2.5 py-0.8 rounded-full text-[10px] font-semibold border ${
+                    isEletrico 
+                      ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
+                      : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                  }">
+                    ${isEletrico ? '⚡ 100% Elétrico' : '🔋 Híbrido'}
+                  </span>
+                  <span class="px-2.5 py-0.8 rounded-full text-[10px] font-medium border ${
+                    isProducao 
+                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                      : 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20'
+                  }">
+                    ${isProducao ? 'Ativo' : 'Descontinuado'}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Modelo & Ano -->
+              <h3 class="text-base font-bold text-white group-hover:text-indigo-400 transition cursor-pointer" onclick="verFichaTecnica(${v.id})">
+                ${v.modelo}
+              </h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Ano Modelo ${v.ano_modelo}</p>
+
+              <!-- Especificações Técnicas (Métricas Rápidas) -->
+              <div class="grid grid-cols-2 gap-2 mt-5 py-3 border-y border-zinc-800/80 text-xs">
+                <div>
+                  <span class="text-[10px] uppercase font-mono text-zinc-500 block">Autonomia</span>
+                  <span class="font-semibold text-zinc-200 font-mono">${v.autonomia_km ? v.autonomia_km + ' km' : 'N/A'}</span>
+                </div>
+                <div>
+                  <span class="text-[10px] uppercase font-mono text-zinc-500 block">Bateria</span>
+                  <span class="font-semibold text-zinc-200 font-mono">${v.capacidade_bateria_kwh ? v.capacidade_bateria_kwh + ' kWh' : 'N/A'}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Card: Preço e Ações -->
+            <div class="mt-6 flex items-center justify-between pt-2">
+              <div>
+                <span class="text-[10px] uppercase font-mono text-zinc-500 block">Preço Base</span>
+                <span class="text-base font-bold font-mono text-indigo-400">${formatadorBRL.format(v.preco_base)}</span>
+              </div>
+              
+              <div class="flex items-center gap-1.5">
+                <button onclick="verFichaTecnica(${v.id})" class="p-2 rounded-xl bg-zinc-800/70 hover:bg-zinc-700 text-zinc-400 hover:text-indigo-400 transition" title="Ficha Técnica Completa">
+                  <i data-lucide="file-text" class="w-4 h-4"></i>
+                </button>
+                <button onclick="editarVeiculo(${v.id})" class="p-2 rounded-xl bg-zinc-800/70 hover:bg-zinc-700 text-zinc-400 hover:text-indigo-400 transition" title="Editar Veículo">
+                  <i data-lucide="edit-3" class="w-4 h-4"></i>
+                </button>
+                <button onclick="deletarVeiculo(${v.id})" class="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 transition" title="Excluir">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         `;
       }).join('');
+
+      // Renderizar Tabela
+      tbody.innerHTML = lista.map(v => `
+        <tr class="hover:bg-zinc-800/40 transition">
+          <td class="py-3.5 px-4 font-mono text-zinc-500">#${v.id}</td>
+          <td class="py-3.5 px-4 font-semibold text-white cursor-pointer hover:text-indigo-400" onclick="verFichaTecnica(${v.id})">${v.modelo}</td>
+          <td class="py-3.5 px-4">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
+              v.tipo_propulsao === 'eletrico' 
+                ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
+                : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+            }">
+              ${v.tipo_propulsao === 'eletrico' ? 'Elétrico' : 'Híbrido'}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-zinc-300 font-mono">${v.ano_modelo}</td>
+          <td class="py-3.5 px-4 text-zinc-400 font-mono">${v.autonomia_km ? v.autonomia_km + ' km' : '-'}</td>
+          <td class="py-3.5 px-4 text-zinc-400 font-mono">${v.capacidade_bateria_kwh ? v.capacidade_bateria_kwh + ' kWh' : '-'}</td>
+          <td class="py-3.5 px-4 font-mono font-semibold text-indigo-400">${formatadorBRL.format(v.preco_base)}</td>
+          <td class="py-3.5 px-4">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+              v.status_producao === 'em_producao' 
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                : 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20'
+            }">
+              ${v.status_producao === 'em_producao' ? 'Em Produção' : 'Descontinuado'}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-right space-x-1">
+            <button onclick="verFichaTecnica(${v.id})" class="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-indigo-400 rounded-lg transition" title="Ficha Técnica">
+              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="editarVeiculo(${v.id})" class="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-indigo-400 rounded-lg transition" title="Editar">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="deletarVeiculo(${v.id})" class="p-1.5 hover:bg-rose-500/10 text-zinc-400 hover:text-rose-400 rounded-lg transition" title="Excluir">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
 
       lucide.createIcons();
     }
 
-    // Salvar (POST ou PUT)
+    // Modal de Ficha Técnica usando @tailwindcss/typography
+    function verFichaTecnica(id) {
+      const v = veiculos.find(item => item.id === id);
+      if (!v) return;
+
+      const isEletrico = v.tipo_propulsao === 'eletrico';
+      const tempoRecargaEstimado = isEletrico 
+        ? `${Math.round((v.capacidade_bateria_kwh || 50) / 7.4)} horas (Wallbox 7.4 kW) / 30 min (DC 100 kW)`
+        : '2.5 horas (Conector Tipo 2) + Tanque de Combustível';
+
+      document.getElementById('modalDocsTitulo').innerText = `${v.modelo} • Ficha Técnica Oficial`;
+      document.getElementById('modalDocsConteudo').innerHTML = `
+        <div class="space-y-4">
+          <p class="lead text-zinc-300">
+            Registro de homologação fabril e parâmetros de engenharia do modelo <strong>${v.modelo}</strong> no banco de dados da montadora.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 not-prose my-4 p-4 rounded-xl bg-zinc-950/80 border border-zinc-800/80">
+            <div>
+              <span class="text-xs text-zinc-500 font-mono uppercase block">Identificador</span>
+              <span class="font-bold font-mono text-indigo-400 text-base">#${v.id}</span>
+            </div>
+            <div>
+              <span class="text-xs text-zinc-500 font-mono uppercase block">Preço de Tabela</span>
+              <span class="font-bold font-mono text-emerald-400 text-base">${formatadorBRL.format(v.preco_base)}</span>
+            </div>
+          </div>
+
+          <h3>1. Especificações do Powertrain</h3>
+          <ul>
+            <li><strong>Tipo de Propulsão:</strong> ${isEletrico ? '100% Elétrico a Bateria (BEV)' : 'Híbrido Flex (HEV / PHEV)'}</li>
+            <li><strong>Capacidade Energética:</strong> ${v.capacidade_bateria_kwh ? v.capacidade_bateria_kwh + ' kWh (íon de lítio)' : 'Consulte departamento de engenharia'}</li>
+            <li><strong>Autonomia Homologada:</strong> ${v.autonomia_km ? v.autonomia_km + ' km (Ciclo PBEV/Inmetro)' : 'Sob medição técnica'}</li>
+            <li><strong>Tempo Estimado de Carga:</strong> ${tempoRecargaEstimado}</li>
+          </ul>
+
+          <h3>2. Ciclo de Vida & Manufatura</h3>
+          <p>
+            O veículo está com status fabril classificado como <code>${v.status_producao}</code>. As revisões programadas ocorrem a cada 10.000 km ou 12 meses, com inspeção preventiva do pacote de baterias e módulos inversores.
+          </p>
+
+          <h3>3. Dados de Integração (API Knex/Postgres)</h3>
+          <pre class="bg-zinc-950 border border-zinc-800 text-zinc-300 p-3 rounded-lg text-xs font-mono"><code>GET /veiculos/${v.id}
+Content-Type: application/json
+
+${JSON.stringify(v, null, 2)}</code></pre>
+        </div>
+      `;
+
+      document.getElementById('modalDocs').classList.remove('hidden');
+      document.getElementById('modalDocs').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    // Modal de Documentação Técnica Geral (Typography)
+    function abrirModalDocs() {
+      document.getElementById('modalDocsTitulo').innerText = 'Documentação Técnica da API REST & Arquitetura';
+      document.getElementById('modalDocsConteudo').innerHTML = `
+        <div class="space-y-4">
+          <p class="lead text-zinc-300">
+            Sistema desenvolvido para o projeto de <strong>Programação Cliente/Servidor</strong> da FAETERJ Barra Mansa por <strong>Iury Lopes</strong>.
+          </p>
+
+          <h3>Tecnologias Utilizadas</h3>
+          <ul>
+            <li><strong>Backend:</strong> Node.js, Express, Knex.js query builder</li>
+            <li><strong>Banco de Dados:</strong> PostgreSQL Serverless na nuvem (Neon)</li>
+            <li><strong>Frontend:</strong> Tailwind CSS com tokens do Design System, Shadcn UI patterns e plugin <code>@tailwindcss/typography</code></li>
+            <li><strong>Ícones:</strong> Lucide Icons CDN</li>
+            <li><strong>Tipografia:</strong> Inter (sans-serif) e JetBrains Mono (monospace)</li>
+          </ul>
+
+          <h3>Endpoints da API</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Rota</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>GET</code></td>
+                <td><code>/veiculos</code></td>
+                <td>Listagem de todos os veículos cadastrados</td>
+              </tr>
+              <tr>
+                <td><code>GET</code></td>
+                <td><code>/veiculos/:id</code></td>
+                <td>Busca detalhes de um veículo específico por ID</td>
+              </tr>
+              <tr>
+                <td><code>POST</code></td>
+                <td><code>/veiculos</code></td>
+                <td>Cria um novo veículo no banco de dados</td>
+              </tr>
+              <tr>
+                <td><code>PUT</code></td>
+                <td><code>/veiculos/:id</code></td>
+                <td>Atualiza dados cadastrais de um veículo existente</td>
+              </tr>
+              <tr>
+                <td><code>DELETE</code></td>
+                <td><code>/veiculos/:id</code></td>
+                <td>Remove o veículo permanentemente do PostgreSQL</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Atalhos Rápidos de Produtividade</h3>
+          <ul>
+            <li>Pressione <kbd class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono">/</kbd> para focar no campo de busca.</li>
+            <li>Pressione <kbd class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono">N</kbd> para abrir o modal de novo veículo.</li>
+            <li>Pressione <kbd class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono">ESC</kbd> para fechar qualquer diálogo.</li>
+          </ul>
+        </div>
+      `;
+
+      document.getElementById('modalDocs').classList.remove('hidden');
+      document.getElementById('modalDocs').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function fecharModalDocs() {
+      document.getElementById('modalDocs').classList.add('hidden');
+      document.getElementById('modalDocs').classList.remove('flex');
+    }
+
+    // Abrir Modal para Cadastro
+    function abrirModalCadastro() {
+      document.getElementById('formVeiculo').reset();
+      document.getElementById('formId').value = '';
+      document.getElementById('campoAno').value = 2026;
+      document.getElementById('modalTitulo').innerHTML = '<i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i> Cadastrar Novo Veículo';
+      document.getElementById('modalForm').classList.remove('hidden');
+      document.getElementById('modalForm').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    // Fechar Modal
+    function fecharModal() {
+      document.getElementById('modalForm').classList.add('hidden');
+      document.getElementById('modalForm').classList.remove('flex');
+    }
+
+    // Editar Veículo
+    function editarVeiculo(id) {
+      const v = veiculos.find(item => item.id === id);
+      if (!v) return;
+
+      document.getElementById('formId').value = v.id;
+      document.getElementById('campoModelo').value = v.modelo;
+      document.getElementById('campoPropulsao').value = v.tipo_propulsao;
+      document.getElementById('campoAno').value = v.ano_modelo;
+      document.getElementById('campoAutonomia').value = v.autonomia_km || '';
+      document.getElementById('campoBateria').value = v.capacidade_bateria_kwh || '';
+      document.getElementById('campoPreco').value = v.preco_base;
+      document.getElementById('campoStatus').value = v.status_producao;
+
+      document.getElementById('modalTitulo').innerHTML = `<i data-lucide="edit-2" class="w-5 h-5 text-amber-400"></i> Editar Veículo #${v.id}`;
+      document.getElementById('modalForm').classList.remove('hidden');
+      document.getElementById('modalForm').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    // Salvar Veículo (POST ou PUT via API REST)
     async function salvarVeiculo(e) {
       e.preventDefault();
-      const id = document.getElementById('veiculoId').value;
-      const modelo = document.getElementById('modelo').value;
-      const tipo_propulsao = document.getElementById('tipo_propulsao').value;
-      const ano_modelo = Number(document.getElementById('ano_modelo').value);
-      const autonomia_km = document.getElementById('autonomia_km').value ? Number(document.getElementById('autonomia_km').value) : null;
-      const capacidade_bateria_kwh = document.getElementById('capacidade_bateria_kwh').value ? Number(document.getElementById('capacidade_bateria_kwh').value) : null;
-      const preco_base = Number(document.getElementById('preco_base').value);
-      const status_producao = document.getElementById('status_producao').value;
+      const id = document.getElementById('formId').value;
+      const modelo = document.getElementById('campoModelo').value;
+      const tipo_propulsao = document.getElementById('campoPropulsao').value;
+      const ano_modelo = Number(document.getElementById('campoAno').value);
+      const autonomia_km = document.getElementById('campoAutonomia').value ? Number(document.getElementById('campoAutonomia').value) : null;
+      const capacidade_bateria_kwh = document.getElementById('campoBateria').value ? Number(document.getElementById('campoBateria').value) : null;
+      const preco_base = Number(document.getElementById('campoPreco').value);
+      const status_producao = document.getElementById('campoStatus').value;
 
       const payload = {
         modelo,
@@ -333,72 +871,35 @@
         });
 
         const data = await res.json();
+        if (!res.ok) throw new Error(data.mensagem || 'Falha ao processar operação');
 
-        if (!res.ok) {
-          throw new Error(data.mensagem || 'Falha ao processar requisição.');
-        }
-
-        showToast(id ? 'Veículo atualizado com sucesso!' : 'Veículo cadastrado com sucesso!');
-        resetForm();
+        fecharModal();
+        showToast(id ? 'Veículo atualizado com sucesso!' : 'Veículo inserido no banco com sucesso!');
         carregarVeiculos();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Preencher formulário para edição
-    function editarVeiculo(id) {
-      const v = veiculosCache.find(item => item.id === id);
-      if (!v) return;
-
-      document.getElementById('veiculoId').value = v.id;
-      document.getElementById('modelo').value = v.modelo;
-      document.getElementById('tipo_propulsao').value = v.tipo_propulsao;
-      document.getElementById('ano_modelo').value = v.ano_modelo;
-      document.getElementById('autonomia_km').value = v.autonomia_km || '';
-      document.getElementById('capacidade_bateria_kwh').value = v.capacidade_bateria_kwh || '';
-      document.getElementById('preco_base').value = v.preco_base;
-      document.getElementById('status_producao').value = v.status_producao;
-
-      document.getElementById('formTitle').innerHTML = '<i data-lucide="edit-2" class="w-5 h-5 text-amber-400"></i> Editar Veículo #' + v.id;
-      document.getElementById('btnSalvarText').innerText = 'Atualizar Veículo';
-      document.getElementById('btnCancelarEdicao').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    // Resetar formulário
-    function resetForm() {
-      document.getElementById('veiculoForm').reset();
-      document.getElementById('veiculoId').value = '';
-      document.getElementById('ano_modelo').value = 2026;
-      document.getElementById('formTitle').innerHTML = '<i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i> Cadastrar Veículo';
-      document.getElementById('btnSalvarText').innerText = 'Salvar no Banco';
-      document.getElementById('btnCancelarEdicao').classList.add('hidden');
-      lucide.createIcons();
-    }
-
-    // Deletar veículo
+    // Excluir Veículo (DELETE /veiculos/:id)
     async function deletarVeiculo(id) {
-      if (!confirm(`Tem certeza que deseja excluir o veículo #${id}?`)) return;
+      if (!confirm(`Tem certeza que deseja remover o veículo #${id}? Esta ação não pode ser desfeita no banco de dados.`)) return;
 
       try {
         const res = await fetch(`/veiculos/${id}`, { method: 'DELETE' });
         const data = await res.json();
 
-        if (!res.ok) {
-          throw new Error(data.mensagem || 'Erro ao excluir.');
-        }
+        if (!res.ok) throw new Error(data.mensagem || 'Erro ao remover veículo');
 
-        showToast('Veículo excluído com sucesso!');
+        showToast('Veículo removido com sucesso!');
         carregarVeiculos();
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    // Inicializar na abertura
+    // Carregar na inicialização
     carregarVeiculos();
   </script>
 </body>
 </html>
-

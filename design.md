@@ -16,18 +16,20 @@
 
 | Token | Valor / Hex / RGBA | Uso Semântico |
 |---|---|---|
-| `canvas-bg` | `#07080b` | Fundo principal da aplicação |
-| `card-bg` | `rgba(18, 19, 24, 0.72)` | Superfície dos cards com glassmorphism |
-| `card-header` | `rgba(7, 8, 11, 0.85)` | Navbar fixa superior com blur de 24px |
+| `canvas-bg` | `#080c14` | Fundo principal da aplicação (Dark Navy Industrial) |
+| `card-bg` | `rgba(14, 20, 32, 0.75)` | Superfície dos cards com glassmorphism vítreo |
+| `card-header` | `rgba(8, 12, 20, 0.88)` | Navbar fixa superior com blur de 24px |
 | `border-subtle` | `rgba(255, 255, 255, 0.08)` | Bordas padrão de separação e contorno |
-| `border-hover` | `rgba(99, 102, 241, 0.35)` | Realce de foco e hover com acento indigo |
+| `border-hover` | `rgba(0, 151, 220, 0.40)` | Realce de foco e hover com acento Fiix Blue |
 | `text-primary` | `#f4f4f5` (zinc-100) | Títulos, métricas e textos principais |
 | `text-muted` | `#a1a1aa` (zinc-400) | Subtítulos, labels e descrições |
 | `text-subtle` | `#71717a` (zinc-500) | Microtextos, metadados e legendas |
-| `accent-primary` | `#6366f1` (indigo-500) | CTAs, focus rings, status ativos |
-| `accent-electric` | `#3b82f6` (blue-500) | Veículos 100% Elétricos (BEV) |
-| `accent-hybrid` | `#a855f7` (purple-500) | Veículos Híbridos (HEV/PHEV) |
-| `accent-success` | `#10b981` (emerald-500) | Status Em Produção, preços de tabela |
+| `accent-primary` | `#0097dc` (Fiix Blue) | CTAs, focus rings, status ativos e destaques |
+| `accent-navy` | `#14499a` (Rockwell Navy) | Gradientes de botão, cabeçalhos de alta autoridade |
+| `accent-cyan` | `#00aaef` (Fiix Bright Cyan) | Preços de tabela, indicadores elétricos e links |
+| `accent-electric` | `#06b6d4` (cyan-500) | Veículos 100% Elétricos (BEV) |
+| `accent-hybrid` | `#38bdf8` (sky-400) | Veículos Híbridos (HEV/PHEV) |
+| `accent-success` | `#10b981` (emerald-500) | Status Em Produção, linha ativa e validações |
 | `accent-danger` | `#ef4444` (rose-500) | Exclusão, descontinuação e alertas |
 
 ---
@@ -107,3 +109,4 @@
 | Novo Veículo | `N` | Abre o formulário modal de cadastro |
 | Fechar Diálogo | `ESC` | Fecha modais e dossiês abertos |
 | Exportar Dados | Clique em `Exportar CSV` | Download instantâneo de planilha `.csv` |
+

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stellantis • Painel de Engenharia & Gestão de Veículos</title>
+  <title>Stellantis • Cockpit de Engenharia & Gestão de Veículos</title>
   
   <!-- Tailwind CSS with Typography & Forms plugins -->
   <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
@@ -24,10 +24,16 @@
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
+            fiix: {
+              blue: '#0097dc',
+              navy: '#14499a',
+              cyan: '#00aaef',
+              dark: '#080c14',
+            },
             border: 'rgba(255, 255, 255, 0.08)',
             input: 'rgba(255, 255, 255, 0.12)',
-            ring: '#6366f1',
-            background: '#09090b',
+            ring: '#0097dc',
+            background: '#080c14',
             foreground: '#f4f4f5',
           }
         }
@@ -36,43 +42,43 @@
   </script>
 
   <style>
-    /* Dark canvas with Stripe/Linear inspired radial glow meshes */
+    /* Dark industrial canvas inspired by Fiix Free CMMS & Rockwell Automation */
     body {
-      background-color: #07080b;
+      background-color: #080c14;
       background-image:
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.14) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.10) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(6, 182, 212, 0.06) 0px, transparent 40%);
+        radial-gradient(at 0% 0%, rgba(0, 151, 220, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(20, 73, 154, 0.20) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.07) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(0, 170, 239, 0.08) 0px, transparent 40%);
       background-attachment: fixed;
     }
 
-    /* Subtle dot grid pattern (Awwwards / Aceternity style) */
+    /* Subtle dot grid pattern (Technical precision) */
     .bg-grid-dots {
-      background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
       background-size: 28px 28px;
     }
 
-    /* Lusion & Codrops inspired dynamic spotlight cards */
+    /* Fiix & Rockwell inspired spotlight cards with subtle cyan-blue glow */
     .spotlight-card {
       position: relative;
-      background: rgba(18, 19, 24, 0.72);
+      background: rgba(14, 20, 32, 0.75);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.02);
+      box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 151, 220, 0.04);
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
       transform-style: preserve-3d;
     }
 
-    /* Mouse tracking glow border (Lusion effect) */
+    /* Mouse tracking glow border (Fiix Blue #0097dc effect) */
     .spotlight-card::before {
       content: '';
       position: absolute;
       inset: -1px;
       border-radius: inherit;
       padding: 1px;
-      background: radial-gradient(450px circle at var(--mouse-x, -200px) var(--mouse-y, -200px), rgba(99, 102, 241, 0.5), transparent 45%);
+      background: radial-gradient(450px circle at var(--mouse-x, -200px) var(--mouse-y, -200px), rgba(0, 151, 220, 0.45), transparent 45%);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
@@ -86,19 +92,19 @@
     }
 
     .spotlight-card:hover {
-      border-color: rgba(99, 102, 241, 0.35);
-      box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.5), 0 0 24px -2px rgba(99, 102, 241, 0.15);
+      border-color: rgba(0, 151, 220, 0.40);
+      box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.55), 0 0 24px -2px rgba(0, 151, 220, 0.20);
     }
 
-    /* Glass header */
+    /* Glass header with Fiix border */
     .glass-header {
-      background: rgba(7, 8, 11, 0.85);
+      background: rgba(8, 12, 20, 0.88);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(0, 151, 220, 0.15);
     }
 
-    /* Shimmer button animation (Codrops style) */
+    /* Shimmer button animation with Fiix Blue & Deep Navy */
     @keyframes shimmerFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -111,9 +117,9 @@
 
     /* Custom scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #07080b; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    ::-webkit-scrollbar-track { background: #080c14; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0097dc; }
 
     /* Animated entry */
     @keyframes cardFadeInUp {
@@ -124,54 +130,54 @@
       animation: cardFadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    /* Progress bar transition */
+    /* Gauge bar smooth transition */
     .gauge-fill {
       transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
-<body class="text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-white bg-grid-dots">
+<body class="text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-[#0097dc]/30 selection:text-white bg-grid-dots">
 
-  <!-- 1. Top Industrial Banner (Fiix / CMMS style) -->
-  <div class="bg-gradient-to-r from-indigo-950/60 via-zinc-950 to-indigo-950/60 border-b border-indigo-900/30 text-xs px-4 py-1.5 flex items-center justify-between gap-4 overflow-x-auto text-zinc-400 font-mono">
+  <!-- 1. Top Industrial Telemetry Bar (Inspirado no status de linha Fiix CMMS) -->
+  <div class="bg-gradient-to-r from-[#0d2144]/80 via-zinc-950 to-[#0d2144]/80 border-b border-sky-900/40 text-xs px-4 py-1.5 flex items-center justify-between gap-4 overflow-x-auto text-zinc-400 font-mono">
     <div class="flex items-center gap-2 shrink-0">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
       <span class="text-emerald-400 font-semibold">LINHA ATIVA:</span>
-      <span class="text-zinc-300">Polo Automotivo Stellantis (Porto Real) • Plataforma CMP/STLA</span>
+      <span class="text-zinc-300">Polo Automotivo Stellantis (Porto Real) • Plataforma STLA / CMP</span>
     </div>
 
     <div class="flex items-center gap-4 shrink-0 text-[11px]">
       <span class="hidden md:inline-flex items-center gap-1.5 text-zinc-400">
-        <i data-lucide="database" class="w-3 h-3 text-indigo-400"></i>
-        <span>PostgreSQL Neon: <strong class="text-emerald-400">Online</strong> (<span id="latencyPing">22ms</span>)</span>
+        <i data-lucide="database" class="w-3 h-3 text-[#0097dc]"></i>
+        <span>PostgreSQL Neon: <strong class="text-emerald-400">Online</strong> (<span id="latencyPing">18ms</span>)</span>
       </span>
       <span class="hidden sm:inline-flex items-center gap-1.5 text-zinc-400">
-        <i data-lucide="cpu" class="w-3 h-3 text-indigo-400"></i>
+        <i data-lucide="cpu" class="w-3 h-3 text-[#0097dc]"></i>
         <span>API Knex REST: <strong class="text-zinc-200">v1.0.0</strong></span>
       </span>
       <span class="text-zinc-400">FAETERJ (Aluno: Iury Lopes)</span>
     </div>
   </div>
 
-  <!-- 2. Navbar Superior (Stripe & Awwwards precision) -->
+  <!-- 2. Navbar Superior (Estética Fiix Rockwell B2B) -->
   <header class="glass-header sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- Brand & Title -->
       <div class="flex items-center gap-4">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-violet-500 to-purple-600 p-[1px] shadow-lg shadow-indigo-500/25">
-          <div class="w-full h-full bg-zinc-950 rounded-2xl flex items-center justify-center">
-            <i data-lucide="shield-check" class="w-6 h-6 text-indigo-400"></i>
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0097dc] via-[#00aaef] to-[#14499a] p-[1px] shadow-lg shadow-sky-500/25">
+          <div class="w-full h-full bg-[#0a101d] rounded-2xl flex items-center justify-center">
+            <i data-lucide="activity" class="w-6 h-6 text-[#00aaef]"></i>
           </div>
         </div>
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-lg font-black text-white tracking-tight flex items-center gap-1.5">
               STELLANTIS
-              <span class="font-light text-zinc-400">MANUFATURA</span>
+              <span class="font-light text-sky-400">MANUFATURA</span>
             </h1>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 uppercase tracking-wider font-semibold">
-              CMMS TELEMETRY
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#0097dc]/15 text-[#00aaef] border border-[#0097dc]/30 uppercase tracking-wider font-semibold">
+              FIIX TELEMETRY
             </span>
           </div>
           <p class="text-xs text-zinc-400">Cockpit de Engenharia de Produto & Controle de Frota Fabril</p>
@@ -181,34 +187,34 @@
       <!-- Quick Actions -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Exportar CSV -->
-        <button onclick="exportarCSV()" class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-300 hover:text-white transition border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 px-3 py-2 rounded-xl" title="Exportar Catálogo para Planilha CSV">
-          <i data-lucide="download" class="w-3.5 h-3.5 text-indigo-400"></i>
+        <button onclick="exportarCSV()" class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-300 hover:text-white transition border border-zinc-800 bg-[#0e1626]/80 hover:bg-[#152238] hover:border-sky-500/40 px-3 py-2 rounded-xl" title="Exportar Catálogo para Planilha CSV">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-[#00aaef]"></i>
           <span>Exportar CSV</span>
         </button>
 
         <!-- Documentação Técnica -->
-        <button onclick="abrirModalDocs()" class="hidden md:flex items-center gap-1.5 text-xs text-zinc-300 hover:text-indigo-300 transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl" title="Ficha Técnica e Arquitetura">
-          <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-400"></i>
+        <button onclick="abrirModalDocs()" class="hidden md:flex items-center gap-1.5 text-xs text-zinc-300 hover:text-sky-300 transition border border-zinc-800 bg-[#0e1626]/80 hover:border-sky-500/40 px-3 py-2 rounded-xl" title="Ficha Técnica e Arquitetura">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#00aaef]"></i>
           <span>Dossiê da API</span>
         </button>
 
         <!-- VisBug Inspetor Visual -->
-        <button onclick="toggleVisBug()" id="btnVisBug" class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl" title="Carregar VisBug (Inspetor Visual de Layout e Espaçamento)">
-          <i data-lucide="bug" class="w-3.5 h-3.5 text-indigo-400"></i>
+        <button onclick="toggleVisBug()" id="btnVisBug" class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-[#0e1626]/80 hover:border-zinc-700 px-3 py-2 rounded-xl" title="Carregar VisBug (Inspetor Visual de Layout e Espaçamento)">
+          <i data-lucide="bug" class="w-3.5 h-3.5 text-[#00aaef]"></i>
           <span id="labelVisBug">VisBug</span>
         </button>
 
         <!-- Repositório GitHub -->
-        <a href="https://github.com/uriLopes/api-veiculos-faeterj" target="_blank" class="hidden lg:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl">
+        <a href="https://github.com/uriLopes/api-veiculos-faeterj" target="_blank" class="hidden lg:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-[#0e1626]/80 hover:border-zinc-700 px-3 py-2 rounded-xl">
           <i data-lucide="github" class="w-3.5 h-3.5"></i>
           <span>GitHub</span>
         </a>
 
-        <!-- Botão Novo Veículo com Shimmer Effect (Codrops) -->
-        <button onclick="abrirModalCadastro()" class="btn-shimmer px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-600 text-white text-xs font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition flex items-center gap-2 group">
+        <!-- Botão Novo Veículo com Shimmer Effect Fiix Blue -->
+        <button onclick="abrirModalCadastro()" class="btn-shimmer px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0097dc] via-[#00aaef] to-[#14499a] text-white text-xs font-semibold shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition flex items-center gap-2 group">
           <i data-lucide="plus" class="w-4 h-4 group-hover:rotate-90 transition duration-300"></i>
           <span>Novo Veículo</span>
-          <kbd class="hidden sm:inline-flex items-center px-1.5 py-0.2 text-[9px] font-mono text-indigo-200 bg-indigo-950/60 rounded border border-indigo-400/30">N</kbd>
+          <kbd class="hidden sm:inline-flex items-center px-1.5 py-0.2 text-[9px] font-mono text-sky-100 bg-[#0b2447]/80 rounded border border-sky-400/40">N</kbd>
         </button>
       </div>
     </div>
@@ -217,14 +223,14 @@
   <!-- Container Principal -->
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
 
-    <!-- 3. Cockpit Industrial de KPIs (Stripe + Fiix CMMS telemetry) -->
+    <!-- 3. Cockpit Industrial de KPIs (Inspirado nos Dashboards do Fiix CMMS) -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       
       <!-- KPI 1: Frota Total -->
       <div class="spotlight-card p-5 rounded-2xl relative overflow-hidden group">
         <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
           <span>Frota Cadastrada</span>
-          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
+          <div class="w-8 h-8 rounded-xl bg-[#0097dc]/15 flex items-center justify-center text-[#00aaef] border border-[#0097dc]/30">
             <i data-lucide="layers" class="w-4 h-4"></i>
           </div>
         </div>
@@ -236,7 +242,7 @@
           <span class="flex items-center gap-1 text-emerald-400">
             <i data-lucide="check-circle" class="w-3 h-3"></i> 100% no Neon
           </span>
-          <span class="text-zinc-500 font-mono">Linha Ativa</span>
+          <span class="text-sky-400 font-mono">Linha Ativa</span>
         </div>
       </div>
 
@@ -244,17 +250,17 @@
       <div class="spotlight-card p-5 rounded-2xl relative overflow-hidden group">
         <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
           <span>100% Elétricos (BEV)</span>
-          <div class="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 border border-blue-500/20">
+          <div class="w-8 h-8 rounded-xl bg-cyan-500/15 flex items-center justify-center text-cyan-400 border border-cyan-500/30">
             <i data-lucide="zap" class="w-4 h-4"></i>
           </div>
         </div>
         <div class="mt-3 flex items-baseline gap-2">
-          <span id="kpiEletricos" class="text-3xl font-extrabold text-blue-400 tracking-tight font-mono">0</span>
+          <span id="kpiEletricos" class="text-3xl font-extrabold text-cyan-400 tracking-tight font-mono">0</span>
           <span class="text-xs text-zinc-500 font-mono">unidades</span>
         </div>
         <div class="mt-3 text-[11px] text-zinc-400 border-t border-zinc-800/80 pt-2 flex items-center justify-between">
           <span>Zero Emissão CO₂</span>
-          <span id="kpiPercEletricos" class="text-blue-400 font-mono font-semibold">0%</span>
+          <span id="kpiPercEletricos" class="text-cyan-400 font-mono font-semibold">0%</span>
         </div>
       </div>
 
@@ -262,17 +268,17 @@
       <div class="spotlight-card p-5 rounded-2xl relative overflow-hidden group">
         <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
           <span>Híbridos (HEV/PHEV)</span>
-          <div class="w-8 h-8 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 border border-purple-500/20">
+          <div class="w-8 h-8 rounded-xl bg-sky-500/15 flex items-center justify-center text-sky-400 border border-sky-500/30">
             <i data-lucide="battery-charging" class="w-4 h-4"></i>
           </div>
         </div>
         <div class="mt-3 flex items-baseline gap-2">
-          <span id="kpiHibridos" class="text-3xl font-extrabold text-purple-400 tracking-tight font-mono">0</span>
+          <span id="kpiHibridos" class="text-3xl font-extrabold text-sky-400 tracking-tight font-mono">0</span>
           <span class="text-xs text-zinc-500 font-mono">unidades</span>
         </div>
         <div class="mt-3 text-[11px] text-zinc-400 border-t border-zinc-800/80 pt-2 flex items-center justify-between">
           <span>Bio-Hybrid Flex</span>
-          <span id="kpiPercHibridos" class="text-purple-400 font-mono font-semibold">0%</span>
+          <span id="kpiPercHibridos" class="text-sky-400 font-mono font-semibold">0%</span>
         </div>
       </div>
 
@@ -280,7 +286,7 @@
       <div class="spotlight-card p-5 rounded-2xl relative overflow-hidden group">
         <div class="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-wider">
           <span>Preço Médio Ponderado</span>
-          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-400 border border-emerald-500/30">
             <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
           </div>
         </div>
@@ -295,29 +301,29 @@
 
     </div>
 
-    <!-- 4. Barra de Controle, Filtros, Busca & Ordenação (Stripe/MaintainX style) -->
+    <!-- 4. Barra de Controle, Filtros, Busca & Ordenação -->
     <div class="spotlight-card p-4 rounded-2xl flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
       
-      <!-- Campo de Busca com Atalho ⌘K -->
+      <!-- Campo de Busca com Atalho ⌘K / "/" -->
       <div class="relative w-full lg:w-80">
         <i data-lucide="search" class="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
         <input type="text" id="campoBusca" oninput="aplicarFiltros()" placeholder="Buscar por modelo, ID ou propulsão..."
-               class="w-full bg-zinc-950/80 border border-zinc-800 rounded-xl pl-10 pr-12 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 transition">
+               class="w-full bg-[#080d17] border border-zinc-800 rounded-xl pl-10 pr-12 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30 transition">
         <kbd class="hidden sm:inline-flex items-center absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 bg-zinc-800 rounded border border-zinc-700 cursor-pointer" onclick="document.getElementById('campoBusca').focus()">/</kbd>
       </div>
 
-      <!-- Filtros em Pills -->
+      <!-- Filtros em Pills Estilo Fiix -->
       <div class="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 text-xs font-medium">
-        <button onclick="setFiltro('todos')" id="pill-todos" class="px-3.5 py-1.5 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 transition shadow-sm shadow-indigo-500/10">
+        <button onclick="setFiltro('todos')" id="pill-todos" class="px-3.5 py-1.5 rounded-xl bg-[#0097dc]/20 text-sky-300 border border-[#0097dc]/40 transition shadow-sm shadow-sky-500/10 font-semibold">
           Todos (<span id="countTodos">0</span>)
         </button>
-        <button onclick="setFiltro('eletrico')" id="pill-eletrico" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition">
+        <button onclick="setFiltro('eletrico')" id="pill-eletrico" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-700 transition">
           ⚡ 100% Elétricos
         </button>
-        <button onclick="setFiltro('hibrido')" id="pill-hibrido" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition">
+        <button onclick="setFiltro('hibrido')" id="pill-hibrido" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-700 transition">
           🔋 Híbridos
         </button>
-        <button onclick="setFiltro('em_producao')" id="pill-em_producao" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition">
+        <button onclick="setFiltro('em_producao')" id="pill-em_producao" class="px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-700 transition">
           🏭 Em Produção
         </button>
       </div>
@@ -325,7 +331,7 @@
       <!-- Controles de Ordenação & Modo de Visualização -->
       <div class="flex items-center gap-2 self-end lg:self-auto shrink-0">
         <!-- Dropdown de Ordenação -->
-        <select id="campoOrdenacao" onchange="aplicarFiltros()" class="bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-300 focus:outline-none focus:border-indigo-500/60 font-medium">
+        <select id="campoOrdenacao" onchange="aplicarFiltros()" class="bg-[#0e1626] border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-300 focus:outline-none focus:border-[#0097dc]/60 font-medium">
           <option value="id_asc">Ordem: ID (#1 → #99)</option>
           <option value="preco_asc">Preço: Menor → Maior</option>
           <option value="preco_desc">Preço: Maior → Menor</option>
@@ -334,8 +340,8 @@
         </select>
 
         <!-- Toggle Grid / Tabela -->
-        <div class="flex items-center gap-1 bg-zinc-900 border border-zinc-800 p-1 rounded-xl">
-          <button onclick="alternarModoVisualizacao('grid')" id="btnViewGrid" class="p-1.5 rounded-lg bg-zinc-800 text-indigo-400 shadow-sm transition" title="Ver em Cards (Grid)">
+        <div class="flex items-center gap-1 bg-[#0e1626] border border-zinc-800 p-1 rounded-xl">
+          <button onclick="alternarModoVisualizacao('grid')" id="btnViewGrid" class="p-1.5 rounded-lg bg-zinc-800 text-[#00aaef] shadow-sm transition" title="Ver em Cards (Grid)">
             <i data-lucide="layout-grid" class="w-4 h-4"></i>
           </button>
           <button onclick="alternarModoVisualizacao('table')" id="btnViewTable" class="p-1.5 rounded-lg text-zinc-400 hover:text-white transition" title="Ver em Tabela">
@@ -346,16 +352,16 @@
 
     </div>
 
-    <!-- 5. Catálogo de Veículos (Visualização em Grid com Spotlight 3D Lusion) -->
+    <!-- 5. Catálogo de Veículos (Visualização em Grid com Spotlight 3D Fiix Blue) -->
     <div id="containerGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Inserido dinamicamente via JS -->
     </div>
 
-    <!-- 6. Catálogo de Veículos (Visualização em Tabela SuperCMMS) -->
+    <!-- 6. Catálogo de Veículos (Visualização em Tabela Estilo SuperCMMS) -->
     <div id="containerTabela" class="hidden spotlight-card rounded-2xl overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs">
-          <thead class="bg-zinc-950 text-zinc-400 font-mono text-[11px] uppercase tracking-wider border-b border-zinc-800">
+          <thead class="bg-[#0a101d] text-zinc-400 font-mono text-[11px] uppercase tracking-wider border-b border-zinc-800">
             <tr>
               <th class="py-3.5 px-4">ID</th>
               <th class="py-3.5 px-4">Modelo</th>
@@ -379,12 +385,12 @@
 
   <!-- 7. Modal de Cadastro / Edição -->
   <div id="modalForm" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 transition duration-200">
-    <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative space-y-6">
+    <div class="bg-[#0b1220] border border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative space-y-6">
       
       <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
         <div>
           <h3 id="modalTitulo" class="text-base font-bold text-white flex items-center gap-2">
-            <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i>
+            <i data-lucide="plus-circle" class="w-5 h-5 text-[#00aaef]"></i>
             Cadastrar Novo Veículo
           </h3>
           <p class="text-xs text-zinc-400 mt-0.5 font-mono">Persistência direta no PostgreSQL Neon via Knex</p>
@@ -400,13 +406,13 @@
         <div>
           <label class="block font-medium text-zinc-300 mb-1.5">Modelo do Veículo *</label>
           <input type="text" id="campoModelo" required placeholder="Ex: Peugeot e-2008 GT / Fiat Pulse Hybrid"
-                 class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
+                 class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30">
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block font-medium text-zinc-300 mb-1.5">Tipo de Propulsão *</label>
-            <select id="campoPropulsao" required class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 font-medium">
+            <select id="campoPropulsao" required class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30 font-medium">
               <option value="eletrico">100% Elétrico (BEV)</option>
               <option value="hibrido">Híbrido (HEV/PHEV)</option>
             </select>
@@ -414,7 +420,7 @@
           <div>
             <label class="block font-medium text-zinc-300 mb-1.5">Ano Modelo *</label>
             <input type="number" id="campoAno" required min="1990" max="2035" value="2026"
-                   class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 font-mono">
+                   class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30 font-mono">
           </div>
         </div>
 
@@ -422,12 +428,12 @@
           <div>
             <label class="block font-medium text-zinc-300 mb-1.5">Autonomia Homologada (km)</label>
             <input type="number" id="campoAutonomia" placeholder="Ex: 406"
-                   class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 font-mono">
+                   class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30 font-mono">
           </div>
           <div>
             <label class="block font-medium text-zinc-300 mb-1.5">Bateria (kWh)</label>
             <input type="number" id="campoBateria" step="0.01" placeholder="Ex: 54.00"
-                   class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 font-mono">
+                   class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30 font-mono">
           </div>
         </div>
 
@@ -435,11 +441,11 @@
           <div>
             <label class="block font-medium text-zinc-300 mb-1.5">Preço Base de Tabela (R$) *</label>
             <input type="number" id="campoPreco" step="0.01" required placeholder="Ex: 199990.00"
-                   class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30">
+                   class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30">
           </div>
           <div>
             <label class="block font-medium text-zinc-300 mb-1.5">Status de Produção</label>
-            <select id="campoStatus" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 font-medium">
+            <select id="campoStatus" class="w-full bg-[#080d17] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#0097dc]/60 focus:ring-1 focus:ring-[#0097dc]/30 font-medium">
               <option value="em_producao">Em Produção (Ativo)</option>
               <option value="descontinuado">Descontinuado (Histórico)</option>
             </select>
@@ -450,7 +456,7 @@
           <button type="button" onclick="fecharModal()" class="px-4 py-2.5 rounded-xl border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 transition font-medium">
             Cancelar
           </button>
-          <button type="submit" id="btnSubmitModal" class="btn-shimmer px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-600 text-white font-semibold shadow-lg shadow-indigo-500/25 transition flex items-center gap-2">
+          <button type="submit" id="btnSubmitModal" class="btn-shimmer px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0097dc] via-[#00aaef] to-[#14499a] text-white font-semibold shadow-lg shadow-sky-500/25 transition flex items-center gap-2">
             <i data-lucide="check" class="w-4 h-4"></i>
             <span>Confirmar e Salvar</span>
           </button>
@@ -461,16 +467,16 @@
 
   <!-- 8. Modal de Dossiê de Engenharia & Ficha Técnica (@tailwindcss/typography) -->
   <div id="modalDocs" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 transition duration-200">
-    <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
+    <div class="bg-[#0b1220] border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
       
       <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+          <div class="w-10 h-10 rounded-2xl bg-[#0097dc]/15 border border-[#0097dc]/30 flex items-center justify-center text-[#00aaef]">
             <i data-lucide="file-text" class="w-5 h-5"></i>
           </div>
           <div>
             <h3 id="modalDocsTitulo" class="text-base font-bold text-white">Dossiê Técnico de Engenharia</h3>
-            <p class="text-xs text-zinc-400 font-mono">Renderizado via <span class="text-indigo-400">@tailwindcss/typography</span></p>
+            <p class="text-xs text-zinc-400 font-mono">Padrão de Homologação <span class="text-[#00aaef]">Fiix CMMS Telemetry</span></p>
           </div>
         </div>
         <button onclick="fecharModalDocs()" class="w-8 h-8 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition">
@@ -484,7 +490,7 @@
       </div>
 
       <div class="pt-4 border-t border-zinc-800 mt-4 flex items-center justify-between text-xs text-zinc-500">
-        <span class="font-mono text-[11px]">Homologação ABNT / INMETRO • FAETERJ</span>
+        <span class="font-mono text-[11px]">Homologação ABNT / INMETRO • Polo Porto Real</span>
         <button onclick="fecharModalDocs()" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition">
           Fechar (ESC)
         </button>
@@ -492,19 +498,19 @@
     </div>
   </div>
 
-  <!-- 9. Toast Notification com Barra de Progresso (Shadcn style) -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border bg-zinc-950 text-white min-w-[280px] overflow-hidden">
+  <!-- 9. Toast Notification com Barra de Progresso -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border bg-[#0b1220] text-white min-w-[280px] overflow-hidden">
     <i id="toastIcon" data-lucide="check" class="w-4 h-4 shrink-0 text-emerald-400"></i>
     <div class="flex-1">
       <div id="toastMsg" class="font-medium">Operação realizada com sucesso!</div>
     </div>
   </div>
 
-  <!-- 10. Footer Fabril -->
-  <footer class="mt-auto border-t border-zinc-900 bg-zinc-950/90 py-6 text-center text-xs text-zinc-500">
+  <!-- 10. Footer Fabril Limpo -->
+  <footer class="mt-auto border-t border-zinc-900 bg-[#060a12]/95 py-6 text-center text-xs text-zinc-500">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <span>Projeto desenvolvido por <strong>Iury Lopes</strong> para a FAETERJ Barra Mansa • Referências: <em>Lusion, Stripe, Codrops, SuperCMMS, Fiix</em></span>
-      <span class="font-mono text-[11px] text-zinc-600">PostgreSQL Neon • Knex • Node.js • Tailwind v4</span>
+      <span>Painel Operacional desenvolvido por <strong>Iury Lopes</strong> para a FAETERJ Barra Mansa • Polo Stellantis Porto Real</span>
+      <span class="font-mono text-[11px] text-zinc-500">PostgreSQL Neon • Knex.js • Node.js Express</span>
     </div>
   </footer>
 
@@ -516,7 +522,7 @@
     // Formatador Monetário BRL
     const formatadorBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    // Injeção dinâmica do VisBug (Inspetor Visual Google Chrome Labs)
+    // Injeção dinâmica do VisBug (Google Chrome Labs)
     function toggleVisBug() {
       if (!document.querySelector('script[src*="visbug"]')) {
         const s = document.createElement('script');
@@ -533,7 +539,7 @@
       }
     }
 
-    // 1. Efeito Spotlight 3D (Lusion / Codrops style)
+    // 1. Efeito Spotlight 3D Interativo
     document.addEventListener('mousemove', (e) => {
       const cards = document.querySelectorAll('.spotlight-card');
       cards.forEach((card) => {
@@ -545,7 +551,7 @@
       });
     });
 
-    // 2. Atalhos de Teclado (Linear / Stripe style)
+    // 2. Atalhos de Teclado
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         fecharModal();
@@ -570,8 +576,8 @@
       toastMsg.innerText = msg;
       toast.className = `fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-0 opacity-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border min-w-[280px] ${
         tipo === 'success' 
-          ? 'bg-zinc-950 text-emerald-300 border-emerald-500/40 shadow-emerald-500/10' 
-          : 'bg-zinc-950 text-rose-300 border-rose-500/40 shadow-rose-500/10'
+          ? 'bg-[#0b1220] text-emerald-300 border-emerald-500/40 shadow-emerald-500/10' 
+          : 'bg-[#0b1220] text-rose-300 border-rose-500/40 shadow-rose-500/10'
       }`;
       toastIcon.setAttribute('data-lucide', tipo === 'success' ? 'check-circle' : 'alert-circle');
       lucide.createIcons();
@@ -581,7 +587,7 @@
       }, 3500);
     }
 
-    // 4. Carregar lista de veículos da API
+    // 4. Carregar lista de veículos da API REST
     async function carregarVeiculos() {
       const startTime = performance.now();
       try {
@@ -599,7 +605,7 @@
       }
     }
 
-    // 5. Atualizar KPIs do Cockpit Industrial (Fiix / SuperCMMS style)
+    // 5. Atualizar KPIs do Cockpit Industrial (Estilo Fiix CMMS)
     function atualizarKPIs() {
       const total = veiculos.length;
       const eletricos = veiculos.filter(v => v.tipo_propulsao === 'eletrico').length;
@@ -621,15 +627,15 @@
       document.getElementById('countTodos').innerText = total;
     }
 
-    // 6. Filtros por Categoria
+    // 6. Filtros por Categoria com Tokens Fiix
     function setFiltro(tipo) {
       filtroAtual = tipo;
       ['todos', 'eletrico', 'hibrido', 'em_producao'].forEach(t => {
         const el = document.getElementById(`pill-${t}`);
         if (t === tipo) {
-          el.className = 'px-3.5 py-1.5 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 transition shadow-sm shadow-indigo-500/10 font-semibold';
+          el.className = 'px-3.5 py-1.5 rounded-xl bg-[#0097dc]/25 text-sky-200 border border-[#0097dc]/50 transition shadow-sm shadow-sky-500/15 font-semibold';
         } else {
-          el.className = 'px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white transition';
+          el.className = 'px-3.5 py-1.5 rounded-xl bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-700 transition';
         }
       });
       aplicarFiltros();
@@ -644,12 +650,12 @@
       const cTable = document.getElementById('containerTabela');
 
       if (modo === 'grid') {
-        btnGrid.className = 'p-1.5 rounded-lg bg-zinc-800 text-indigo-400 shadow-sm transition';
+        btnGrid.className = 'p-1.5 rounded-lg bg-zinc-800 text-[#00aaef] shadow-sm transition';
         btnTable.className = 'p-1.5 rounded-lg text-zinc-400 hover:text-white transition';
         cGrid.classList.remove('hidden');
         cTable.classList.add('hidden');
       } else {
-        btnTable.className = 'p-1.5 rounded-lg bg-zinc-800 text-indigo-400 shadow-sm transition';
+        btnTable.className = 'p-1.5 rounded-lg bg-zinc-800 text-[#00aaef] shadow-sm transition';
         btnGrid.className = 'p-1.5 rounded-lg text-zinc-400 hover:text-white transition';
         cTable.classList.remove('hidden');
         cGrid.classList.add('hidden');
@@ -704,30 +710,30 @@
         return;
       }
 
-      // Renderizar Cards com Gauge de Autonomia e 3D Tilt (Lusion + Codrops style)
+      // Renderizar Cards com Gauge de Autonomia e Tokens Fiix Blue
       cGrid.innerHTML = lista.map((v, index) => {
         const isEletrico = v.tipo_propulsao === 'eletrico';
         const isProducao = v.status_producao === 'em_producao';
         const autonomia = Number(v.autonomia_km || 0);
         const bateria = Number(v.capacidade_bateria_kwh || 0);
         
-        // Gauge percentuais relativos
+        // Gauge percentuais
         const percAutonomia = Math.min(Math.round((autonomia / 800) * 100), 100);
         const percBateria = Math.min(Math.round((bateria / 100) * 100), 100);
 
         return `
-          <div class="spotlight-card rounded-2xl p-6 relative flex flex-col justify-between group animate-card-in" style="animation-delay: ${index * 50}ms">
+          <div class="spotlight-card rounded-2xl p-6 relative flex flex-col justify-between group animate-card-in" style="animation-delay: ${index * 45}ms">
             <div>
               <!-- Header Card -->
               <div class="flex items-start justify-between gap-3 mb-4">
-                <span class="font-mono text-[11px] text-zinc-400 font-semibold px-2 py-0.5 rounded-md bg-zinc-950 border border-zinc-800">
+                <span class="font-mono text-[11px] text-zinc-400 font-semibold px-2 py-0.5 rounded-md bg-[#080d17] border border-zinc-800">
                   #${v.id}
                 </span>
                 <div class="flex items-center gap-1.5">
                   <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
                     isEletrico 
-                      ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' 
-                      : 'bg-purple-500/10 text-purple-400 border-purple-500/30'
+                      ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' 
+                      : 'bg-sky-500/10 text-sky-300 border-sky-500/30'
                   }">
                     ${isEletrico ? '⚡ 100% BEV' : '🔋 HEV Flex'}
                   </span>
@@ -742,33 +748,33 @@
               </div>
 
               <!-- Modelo & Ano -->
-              <h3 class="text-base font-bold text-white group-hover:text-indigo-400 transition cursor-pointer flex items-center justify-between" onclick="verFichaTecnica(${v.id})">
+              <h3 class="text-base font-bold text-white group-hover:text-[#00aaef] transition cursor-pointer flex items-center justify-between" onclick="verFichaTecnica(${v.id})">
                 <span>${v.modelo}</span>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600 group-hover:text-indigo-400 group-hover:translate-x-1 transition shrink-0"></i>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600 group-hover:text-[#00aaef] group-hover:translate-x-1 transition shrink-0"></i>
               </h3>
               <p class="text-xs text-zinc-400 mt-0.5 font-mono">Ano Modelo ${v.ano_modelo} • Plataforma STLA</p>
 
-              <!-- Telemetria Fabril / Gauges de Engenharia (MaintainX / Fiix style) -->
+              <!-- Telemetria Fabril / Gauges de Engenharia (Estilo Fiix CMMS) -->
               <div class="space-y-3 mt-5 py-3 border-y border-zinc-800/80 text-xs">
-                <!-- Autonomia com barra de preenchimento -->
+                <!-- Autonomia com barra de preenchimento Fiix Blue -->
                 <div>
                   <div class="flex justify-between items-center text-[11px] mb-1">
                     <span class="text-zinc-500 uppercase font-mono text-[10px]">Autonomia Homologada</span>
                     <span class="font-mono font-semibold text-zinc-200">${autonomia ? autonomia + ' km' : 'N/A'}</span>
                   </div>
-                  <div class="w-full h-1.5 bg-zinc-950 rounded-full overflow-hidden border border-zinc-850">
-                    <div class="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full gauge-fill" style="width: ${percAutonomia}%"></div>
+                  <div class="w-full h-1.5 bg-[#080d17] rounded-full overflow-hidden border border-zinc-800">
+                    <div class="h-full bg-gradient-to-r from-[#0097dc] to-[#00aaef] rounded-full gauge-fill" style="width: ${percAutonomia}%"></div>
                   </div>
                 </div>
 
-                <!-- Bateria com barra de preenchimento -->
+                <!-- Bateria com barra de preenchimento Deep Navy to Fiix Blue -->
                 <div>
                   <div class="flex justify-between items-center text-[11px] mb-1">
                     <span class="text-zinc-500 uppercase font-mono text-[10px]">Capacidade Energética</span>
                     <span class="font-mono font-semibold text-zinc-200">${bateria ? bateria + ' kWh' : 'N/A'}</span>
                   </div>
-                  <div class="w-full h-1.5 bg-zinc-950 rounded-full overflow-hidden border border-zinc-850">
-                    <div class="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full gauge-fill" style="width: ${percBateria}%"></div>
+                  <div class="w-full h-1.5 bg-[#080d17] rounded-full overflow-hidden border border-zinc-800">
+                    <div class="h-full bg-gradient-to-r from-[#14499a] to-[#0097dc] rounded-full gauge-fill" style="width: ${percBateria}%"></div>
                   </div>
                 </div>
               </div>
@@ -778,14 +784,14 @@
             <div class="mt-5 flex items-center justify-between pt-2">
               <div>
                 <span class="text-[10px] uppercase font-mono text-zinc-500 block">Preço de Tabela</span>
-                <span class="text-base font-bold font-mono text-indigo-400">${formatadorBRL.format(v.preco_base)}</span>
+                <span class="text-base font-bold font-mono text-[#00aaef]">${formatadorBRL.format(v.preco_base)}</span>
               </div>
               
               <div class="flex items-center gap-1.5">
-                <button onclick="verFichaTecnica(${v.id})" class="p-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 hover:text-indigo-400 transition" title="Dossiê Técnico">
+                <button onclick="verFichaTecnica(${v.id})" class="p-2 rounded-xl bg-[#080d17] border border-zinc-800 hover:bg-[#121c2e] hover:border-sky-500/30 text-zinc-300 hover:text-[#00aaef] transition" title="Dossiê Técnico">
                   <i data-lucide="file-text" class="w-4 h-4"></i>
                 </button>
-                <button onclick="editarVeiculo(${v.id})" class="p-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 hover:text-indigo-400 transition" title="Editar Veículo">
+                <button onclick="editarVeiculo(${v.id})" class="p-2 rounded-xl bg-[#080d17] border border-zinc-800 hover:bg-[#121c2e] hover:border-sky-500/30 text-zinc-300 hover:text-[#00aaef] transition" title="Editar Veículo">
                   <i data-lucide="edit-3" class="w-4 h-4"></i>
                 </button>
                 <button onclick="deletarVeiculo(${v.id})" class="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 transition border border-rose-500/20" title="Excluir">
@@ -799,14 +805,14 @@
 
       // Renderizar Tabela
       tbody.innerHTML = lista.map(v => `
-        <tr class="hover:bg-zinc-900/50 transition">
+        <tr class="hover:bg-[#0c1424] transition">
           <td class="py-3.5 px-4 font-mono text-zinc-500 font-semibold">#${v.id}</td>
-          <td class="py-3.5 px-4 font-semibold text-white cursor-pointer hover:text-indigo-400" onclick="verFichaTecnica(${v.id})">${v.modelo}</td>
+          <td class="py-3.5 px-4 font-semibold text-white cursor-pointer hover:text-[#00aaef]" onclick="verFichaTecnica(${v.id})">${v.modelo}</td>
           <td class="py-3.5 px-4">
             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
               v.tipo_propulsao === 'eletrico' 
-                ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
-                : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' 
+                : 'bg-sky-500/10 text-sky-300 border-sky-500/20'
             }">
               ${v.tipo_propulsao === 'eletrico' ? '⚡ 100% BEV' : '🔋 HEV Flex'}
             </span>
@@ -814,7 +820,7 @@
           <td class="py-3.5 px-4 text-zinc-300 font-mono">${v.ano_modelo}</td>
           <td class="py-3.5 px-4 text-zinc-300 font-mono">${v.autonomia_km ? v.autonomia_km + ' km' : '-'}</td>
           <td class="py-3.5 px-4 text-zinc-300 font-mono">${v.capacidade_bateria_kwh ? v.capacidade_bateria_kwh + ' kWh' : '-'}</td>
-          <td class="py-3.5 px-4 font-mono font-bold text-indigo-400">${formatadorBRL.format(v.preco_base)}</td>
+          <td class="py-3.5 px-4 font-mono font-bold text-[#00aaef]">${formatadorBRL.format(v.preco_base)}</td>
           <td class="py-3.5 px-4">
             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium border ${
               v.status_producao === 'em_producao' 
@@ -825,10 +831,10 @@
             </span>
           </td>
           <td class="py-3.5 px-4 text-right space-x-1">
-            <button onclick="verFichaTecnica(${v.id})" class="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-indigo-400 rounded-lg transition" title="Ficha Técnica">
+            <button onclick="verFichaTecnica(${v.id})" class="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-[#00aaef] rounded-lg transition" title="Ficha Técnica">
               <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
             </button>
-            <button onclick="editarVeiculo(${v.id})" class="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-indigo-400 rounded-lg transition" title="Editar">
+            <button onclick="editarVeiculo(${v.id})" class="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-[#00aaef] rounded-lg transition" title="Editar">
               <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             </button>
             <button onclick="deletarVeiculo(${v.id})" class="p-1.5 hover:bg-rose-500/10 text-zinc-400 hover:text-rose-400 rounded-lg transition" title="Excluir">
@@ -841,7 +847,7 @@
       lucide.createIcons();
     }
 
-    // 10. Exportar Catálogo para Planilha CSV (SuperCMMS / MaintainX feature)
+    // 10. Exportar Catálogo para Planilha CSV
     function exportarCSV() {
       if (veiculos.length === 0) {
         showToast('Nenhum dado disponível para exportação.', 'error');
@@ -889,10 +895,10 @@
             Dossiê de engenharia automotiva para o modelo <strong>${v.modelo}</strong>, registrado no cluster fabril do Polo de Porto Real.
           </p>
 
-          <div class="grid grid-cols-2 gap-4 not-prose my-4 p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800">
+          <div class="grid grid-cols-2 gap-4 not-prose my-4 p-4 rounded-2xl bg-[#080d17] border border-zinc-800">
             <div>
               <span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider block">ID do Ativo</span>
-              <span class="font-bold font-mono text-indigo-400 text-base">#${v.id}</span>
+              <span class="font-bold font-mono text-[#00aaef] text-base">#${v.id}</span>
             </div>
             <div>
               <span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider block">Preço de Tabela Sugerido</span>
@@ -903,18 +909,18 @@
           <h3>1. Arquitetura de Propulsão & Armazenamento</h3>
           <ul>
             <li><strong>Classificação:</strong> ${isEletrico ? '100% Elétrico a Bateria (BEV - Zero Emissões)' : 'Híbrido Flex (HEV / Bio-Hybrid com motor elétrico auxiliar)'}</li>
-            <li><strong>Capacidade Energética:</strong> ${v.capacidade_bateria_kwh ? v.capacidade_bateria_kwh + ' kWh (Módulos de Íon-Lítio NMC com refrigeração líquida)' : 'Informação sob especificação técnica'}</li>
+            <li><strong>Capacidade Energética:</strong> ${v.capacidade_bateria_kwh ? v.capacidade_bateria_kwh + ' kWh (Módulos de Íon-Lítio com refrigeração líquida)' : 'Informação sob especificação técnica'}</li>
             <li><strong>Autonomia Homologada:</strong> ${v.autonomia_km ? v.autonomia_km + ' km no ciclo de condução PBEV/INMETRO' : 'Sob validação de pista'}</li>
             <li><strong>Curva de Recarga:</strong> ${tempoRecargaEstimado}</li>
           </ul>
 
-          <h3>2. Indicadores de Manufatura & Qualidade (CMMS)</h3>
+          <h3>2. Indicadores de Manufatura & Qualidade (Fiix CMMS)</h3>
           <p>
             O veículo encontra-se com status de manufatura <code>${v.status_producao}</code>. As rotinas de inspeção preventiva de qualidade seguem a norma ISO 9001 com checklist em 140 pontos no final da linha de montagem.
           </p>
 
           <h3>3. Payload da API REST (Node.js + Knex)</h3>
-          <pre class="bg-zinc-950 border border-zinc-800 text-zinc-300 p-4 rounded-xl text-xs font-mono"><code>GET /veiculos/${v.id}
+          <pre class="bg-[#05080f] border border-zinc-800 text-zinc-300 p-4 rounded-xl text-xs font-mono"><code>GET /veiculos/${v.id}
 HTTP/1.1 200 OK
 Content-Type: application/json
 
@@ -938,11 +944,10 @@ ${JSON.stringify(v, null, 2)}</code></pre>
 
           <h3>Referências e Inspirações Visuais Integradas</h3>
           <ul>
-            <li><strong>Lusion.co:</strong> Iluminação de spotlight dinâmica 3D nos cards, profundidade visual e animações orgânicas.</li>
-            <li><strong>Stripe.com:</strong> Tipografia precisa (Inter), hierarquia limpa, gradientes em mesh e acabamento sofisticado.</li>
+            <li><strong>Fiix Free CMMS & Rockwell Automation:</strong> Cores corporativas de confiabilidade (#0097dc, #14499a, #00aaef), telemetria fabril e hierarquia limpa.</li>
+            <li><strong>Lusion.co:</strong> Iluminação de spotlight dinâmica 3D nos cards com mouse tracking.</li>
+            <li><strong>Stripe.com:</strong> Tipografia precisa (Inter), hierarquia limpa e gradientes em mesh sutil.</li>
             <li><strong>Codrops (Tympanus):</strong> Botões com efeito shimmer animado e micro-interações refinadas.</li>
-            <li><strong>Awwwards:</strong> Estética Dark Mode com contraste milimétrico e paleta zinc/indigo.</li>
-            <li><strong>SuperCMMS, MaintainX & Fiix:</strong> Telemetria industrial, cockpit de indicadores de chão de fábrica e exportação CSV.</li>
           </ul>
 
           <h3>Endpoints da API REST</h3>
@@ -1007,7 +1012,7 @@ ${JSON.stringify(v, null, 2)}</code></pre>
       document.getElementById('formVeiculo').reset();
       document.getElementById('formId').value = '';
       document.getElementById('campoAno').value = 2026;
-      document.getElementById('modalTitulo').innerHTML = '<i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i> Cadastrar Novo Veículo';
+      document.getElementById('modalTitulo').innerHTML = '<i data-lucide="plus-circle" class="w-5 h-5 text-[#00aaef]"></i> Cadastrar Novo Veículo';
       document.getElementById('modalForm').classList.remove('hidden');
       document.getElementById('modalForm').classList.add('flex');
       lucide.createIcons();

@@ -192,6 +192,12 @@
           <span>Dossiê da API</span>
         </button>
 
+        <!-- VisBug Inspetor Visual -->
+        <button onclick="toggleVisBug()" id="btnVisBug" class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl" title="Carregar VisBug (Inspetor Visual de Layout e Espaçamento)">
+          <i data-lucide="bug" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span id="labelVisBug">VisBug</span>
+        </button>
+
         <!-- Repositório GitHub -->
         <a href="https://github.com/uriLopes/api-veiculos-faeterj" target="_blank" class="hidden lg:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition border border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 px-3 py-2 rounded-xl">
           <i data-lucide="github" class="w-3.5 h-3.5"></i>
@@ -509,6 +515,23 @@
 
     // Formatador Monetário BRL
     const formatadorBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    // Injeção dinâmica do VisBug (Inspetor Visual Google Chrome Labs)
+    function toggleVisBug() {
+      if (!document.querySelector('script[src*="visbug"]')) {
+        const s = document.createElement('script');
+        s.type = 'module';
+        s.src = 'https://unpkg.com/visbug';
+        document.body.appendChild(s);
+        document.getElementById('labelVisBug').innerText = 'VisBug Ativo';
+        const btn = document.getElementById('btnVisBug');
+        btn.classList.remove('text-zinc-400');
+        btn.classList.add('border-emerald-500/50', 'text-emerald-300', 'bg-emerald-500/10');
+        showToast('VisBug carregado! Clique nos elementos na barra lateral esquerda para inspecionar.');
+      } else {
+        showToast('VisBug já está ativo na tela!');
+      }
+    }
 
     // 1. Efeito Spotlight 3D (Lusion / Codrops style)
     document.addEventListener('mousemove', (e) => {
